@@ -23,22 +23,20 @@ import com.codename1.ui.Button;
 import com.codename1.ui.Container;
 import com.codename1.ui.Dialog;
 import com.codename1.ui.Display;
-import com.codename1.ui.Font;
 import com.codename1.ui.FontImage;
 import com.codename1.ui.Form;
 import com.codename1.ui.Image;
 import com.codename1.ui.Label;
 import com.codename1.ui.TextField;
 import com.codename1.ui.Toolbar;
-import com.codename1.ui.events.ActionListener;
 import com.codename1.ui.layouts.BorderLayout;
 import com.codename1.ui.layouts.BoxLayout;
 import com.codename1.ui.layouts.FlowLayout;
 import com.codename1.ui.util.Resources;
-import com.mycompany.myapp.entities.fos_user;
 import com.mycompany.myapp.services.UserService;
 import com.mycompany.myapp.utils.Statics;
-
+import static com.codename1.ui.Component.LEFT;
+import static com.codename1.ui.Component.RIGHT;
 
 
 /**
@@ -47,25 +45,24 @@ import com.mycompany.myapp.utils.Statics;
  * @author Shai Almog
  */
 public class LoginForm extends Form {
-
     public LoginForm(Resources theme) {
         super(new BorderLayout(BorderLayout.CENTER_BEHAVIOR_CENTER_ABSOLUTE));
         setUIID("LoginForm");
         Container welcome = FlowLayout.encloseCenter(
-                new Label("Bienvenue , ", "WelcomeWhite"),
-                new Label("Visiteur", "WelcomeBlue")
+                new Label("Welcome, ", "WelcomeWhite"),
+                new Label("", "WelcomeBlue")
         );
         
         getTitleArea().setUIID("Container");
         
-        Image profilePic = theme.getImage("user.jpg");
+        Image profilePic = theme.getImage("user-picture.jpg");
         Image mask = theme.getImage("round-mask.png");
-        profilePic = profilePic.fill(mask.getWidth(), mask.getHeight());
-        Label profilePicLabel = new Label(profilePic, "ProfilePic");
-        profilePicLabel.setMask(mask.createMask());
+//        profilePic = profilePic.fill(mask.getWidth(), mask.getHeight());
+//        Label profilePicLabel = new Label(profilePic, "ProfilePic");
+//        profilePicLabel.setMask(mask.createMask());
         
-        TextField login = new TextField("admin", "Username", 20, TextField.EMAILADDR) ;
-        TextField password = new TextField("123", "Mot de passe", 20, TextField.PASSWORD) ;
+        TextField login = new TextField("nahawand.laajili@gmail.com", "Login", 20, TextField.EMAILADDR) ;
+        TextField password = new TextField("password", "Mot de passe", 20, TextField.PASSWORD) ;
         login.getAllStyles().setMargin(LEFT, 0);
         password.getAllStyles().setMargin(LEFT, 0);
         Label loginIcon = new Label("", "TextField");
@@ -77,12 +74,13 @@ public class LoginForm extends Form {
         
         Button loginButton = new Button("LOGIN");
         loginButton.setUIID("LoginButton");
-//        loginButton.addActionListener(e -> {
-//            Toolbar.setGlobalToolbar(false);
-//            new WalkthruForm(theme).show();
-//            Toolbar.setGlobalToolbar(true);
-//        });
-        loginButton.addActionListener((e) -> {
+        loginButton.addActionListener(e -> {
+            Toolbar.setGlobalToolbar(false);
+            new WalkthruForm(theme).show();
+            Toolbar.setGlobalToolbar(true);
+        });
+        
+          loginButton.addActionListener((e) -> {
             System.out.println("connection buuton clicked");
 //            UserService us = new UserService();
             if(verifierChamps(login.getText(), password.getText())){
@@ -102,11 +100,13 @@ public class LoginForm extends Form {
             }}
 
         });
-        Button createNewAccount = new Button("Pas encore de compte chez nous ? Inscrivez-vous");
+            
+        Button createNewAccount = new Button("CREATE NEW ACCOUNT");
         createNewAccount.setUIID("CreateNewAccountButton");
         createNewAccount.addActionListener((e) -> {
-                       new RegisterForm(theme).show();
+                new RegisterForm(theme).show();
         });
+        
         
         // We remove the extra space for low resolution devices so things fit better
         Label spaceLabel;
@@ -117,9 +117,9 @@ public class LoginForm extends Form {
         }
         
         
-        Container by = BoxLayout.encloseY(
+         Container by = BoxLayout.encloseY(
                 welcome,
-                profilePicLabel,
+//                profilePicLabel,
                 spaceLabel,
                 BorderLayout.center(login).
                         add(BorderLayout.WEST, loginIcon),
@@ -134,7 +134,8 @@ public class LoginForm extends Form {
         by.setScrollableY(true);
         by.setScrollVisible(false);
     }
-    public boolean verifierChamps(String login,String password){
+    
+     public boolean verifierChamps(String login,String password){
          if(login.equals("")){
                 Dialog.show("Error", "Veuillez remplir le champ par votre Username ou Email","OK",null);
                 return false;
