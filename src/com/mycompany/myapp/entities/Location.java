@@ -18,12 +18,12 @@ public class Location {
     private float prix;
     private String photo;
     private int rating;
-    private String dateCreation;
+    private Date dateCreation;
 
     public Location() {
     }
 
-    public Location(int id, String titre, String lieu, float prix, String photo, int rating, String dateCreation) {
+    public Location(int id, String titre, String lieu, float prix, String photo, int rating, Date dateCreation) {
         this.id = id;
         this.titre = titre;
         this.lieu = lieu;
@@ -33,7 +33,7 @@ public class Location {
         this.dateCreation = dateCreation;
     }
 
-    public Location(String titre, String lieu, float prix, String photo, String dateCreation) {
+    public Location(String titre, String lieu, float prix, String photo, Date dateCreation) {
         this.titre = titre;
         this.lieu = lieu;
         this.prix = prix;
@@ -91,13 +91,14 @@ public class Location {
         this.rating = rating;
     }
 
-    public String getDateCreation() {
+    public Date getDateCreation() {
         return dateCreation;
     }
 
-    public void setDateCreation(String dateCreation) {
+    public void setDateCreation(Date dateCreation) {
         this.dateCreation = dateCreation;
     }
+
 
     @Override
     public String toString() {

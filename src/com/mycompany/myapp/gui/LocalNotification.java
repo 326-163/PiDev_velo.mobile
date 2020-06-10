@@ -5,29 +5,70 @@
  */
 package com.mycompany.myapp.gui;
 import com.codename1.ui.Button;
-import com.codename1.ui.ComboBox;
-import com.codename1.ui.Display;
-import com.codename1.ui.Form;
+import com.codename1.ui.Container;
+import com.codename1.ui.FontImage;
+import com.codename1.ui.Graphics;
+import com.codename1.ui.Image;
 import com.codename1.ui.Label;
-import com.codename1.ui.TextField;
-import com.codename1.ui.events.ActionEvent;
-import com.codename1.ui.events.ActionListener;
-import com.codename1.ui.layouts.BoxLayout;
-import com.codename1.ui.plaf.UIManager;
+import com.codename1.ui.Toolbar;
+import com.codename1.ui.layouts.BorderLayout;
+import com.codename1.ui.layouts.FlowLayout;
 import com.codename1.ui.util.Resources;
-import java.io.IOException;
+import com.mycompany.myapp.utils.Statics;
 
 /**
  *
  * @author nahawnd
  */
 
-    public class LocalNotification implements LocalNotificationCallback {
-         private Form current;
-    private Resources theme;
+    public class LocalNotification  extends SideMenuBaseForm{
 
-      public LocalNotification() {
-            LocalNotification n = new LocalNotification();
+      public LocalNotification(Resources res) {
+        super(new BorderLayout());
+        Toolbar tb = getToolbar();
+        tb.setTitleCentered(false);
+        Image profilePic = res.getImage("notif.jpg");        
+        Image tintedImage = Image.createImage(profilePic.getWidth(), profilePic.getHeight());
+        Graphics g = tintedImage.getGraphics();
+        g.drawImage(profilePic, 0, 0);
+        g.drawImage(res.getImage("gradient-overlay.png"), 0, 0, profilePic.getWidth(), profilePic.getHeight());
+        
+        tb.getUnselectedStyle().setBgImage(tintedImage);
+        
+        Button menuButton = new Button("");
+        menuButton.setUIID("Title");
+        FontImage.setMaterialIcon(menuButton, FontImage.MATERIAL_MENU);
+        menuButton.addActionListener(e -> getToolbar().openSideMenu());
+
+        Button settingsButton = new Button("Retour");
+        settingsButton.setUIID("Title");
+        FontImage.setMaterialIcon(settingsButton, FontImage.MATERIAL_ARROW_BACK_IOS);
+      //  settingsButton.addActionListener(e ->{ Statics.current_choice=1;new AfficherListeAnnonces(res).show();});
+        
+        Label space = new Label("", "TitlePictureSpace");
+        space.setShowEvenIfBlank(true);
+        Container titleComponent = 
+                BorderLayout.north(
+                    BorderLayout.west(menuButton).add(BorderLayout.EAST, settingsButton)
+                ).
+                add(BorderLayout.CENTER, space).
+                add(BorderLayout.SOUTH, 
+                        FlowLayout.encloseIn(
+                                new Label(" Notifications des ", "WelcomeBlue"),
+                                new Label("Reservations ", "WelcomeWhite")
+                        ));
+        titleComponent.setUIID("BottomPaddingContainer");
+        tb.setTitleComponent(titleComponent);
+        
+        Label separator = new Label("", "BlueSeparatorLine");
+        separator.setShowEvenIfBlank(true);
+        add(BorderLayout.NORTH, separator);
+        
+          
+          
+       //#####begin
+          
+      /*      LocalNotification n = new LocalNotification();
         n.setId("demo-notification");
         n.setAlertBody("Quelqu'un veut réserver votre vélo");
         n.setAlertTitle("nouvelle reservation!");
@@ -139,8 +180,12 @@ import java.io.IOException;
     }
         */
         
-      
+      }
    
-
+ @Override
+    protected void showOtherForm(Resources res) {
+        new ProfileForm(res).show();
+    }
+   
    
 }

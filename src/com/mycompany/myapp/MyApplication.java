@@ -8,9 +8,7 @@ import com.codename1.ui.plaf.UIManager;
 import com.codename1.ui.util.Resources;
 import com.codename1.io.Log;
 import com.codename1.ui.Toolbar;
-import com.mycompany.myapp.gui.HomeForm;
-import com.codename1.notifications.LocalNotification;
-import com.codename1.notifications.LocalNotificationCallback;
+import com.mycompany.myapp.gui.LoginForm;
 
 
 /**
@@ -51,9 +49,7 @@ public class MyApplication {
             return;
         }
 
-   new HomeForm().show();
-    //  new testForm().show();
-     
+      new LoginForm(theme).show();  
     }
 
     public void stop() {

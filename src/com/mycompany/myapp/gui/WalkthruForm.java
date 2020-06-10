@@ -19,6 +19,7 @@ import com.codename1.ui.layouts.FlowLayout;
 import com.codename1.ui.layouts.LayeredLayout;
 import com.codename1.ui.util.Resources;
 
+
 /**
  * A swipe tutorial for the application
  *
@@ -38,8 +39,9 @@ public class WalkthruForm extends Form {
         walkthruTabs.getTabsContainer().setUIID("Container");
         walkthruTabs.hideTabs();
         
-        Image notes = res.getImage("notes.png");
+        Image notes = res.getImage("byke.png");
         Image duke = res.getImage("duke.png");
+        
         
         Label notesPlaceholder = new Label("","ProfilePic");
         Label notesLabel = new Label(notes, "ProfilePic");
@@ -48,11 +50,9 @@ public class WalkthruForm extends Form {
         Label bottomSpace = new Label();
         
         Container tab1 = BorderLayout.centerAbsolute(BoxLayout.encloseY(
-                notesPlaceholder,
-                new Label("Keep track of your tasks", "WalkthruWhite"),
-                new SpanLabel("Never miss an appointment, never forget about your " +
-                                            "daily team meeting and remember when your favorite " +
-                                            "team is playing.",  "WalkthruBody"),
+               notesPlaceholder,
+                new Label("Bienvenue à notre application", "WalkthruWhite"),
+                new SpanLabel("pour les cyclistes,par les cyclistes " ,  "WalkthruBody"),
                 bottomSpace
         ));
         tab1.setUIID("WalkthruTab1");
@@ -61,12 +61,10 @@ public class WalkthruForm extends Form {
         
         Label bottomSpaceTab2 = new Label();
         
-        Container tab2 = BorderLayout.centerAbsolute(BoxLayout.encloseY(
+       Container tab2 = BorderLayout.centerAbsolute(BoxLayout.encloseY(
                 new Label(duke, "ProfilePic"),
-                new Label("Codename One", "WalkthruWhite"),
-                new SpanLabel("Write once run anywhere native mobile development " +
-                                            "Get Java working on all devices as it was always meant " +
-                                            "to be!",  "WalkthruBody"),
+                new Label("Velo", "WalkthruWhite"),
+                new SpanLabel("Amusez vous en parcourons les fonctionnalités de notre application!",  "WalkthruBody"),
                 bottomSpaceTab2
         ));
         
@@ -97,7 +95,8 @@ public class WalkthruForm extends Form {
             }
         });
         
-        Button skip = new Button("SKIP TUTORIAL");
+        
+        Button skip = new Button("suivant");
         skip.setUIID("SkipButton");
         skip.addActionListener(e -> new ProfileForm(res).show());
         
