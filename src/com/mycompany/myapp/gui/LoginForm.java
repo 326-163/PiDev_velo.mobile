@@ -16,7 +16,6 @@
  * CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE 
  * OR THE USE OR OTHER DEALINGS IN THE SOFTWARE. 
  */
-
 package com.mycompany.myapp.gui;
 
 import com.codename1.ui.Button;
@@ -38,13 +37,13 @@ import com.mycompany.myapp.utils.Statics;
 import static com.codename1.ui.Component.LEFT;
 import static com.codename1.ui.Component.RIGHT;
 
-
 /**
  * The Login form
  *
  * @author Shai Almog
  */
 public class LoginForm extends Form {
+
     public LoginForm(Resources theme) {
         super(new BorderLayout(BorderLayout.CENTER_BEHAVIOR_CENTER_ABSOLUTE));
         setUIID("LoginForm");
@@ -52,17 +51,17 @@ public class LoginForm extends Form {
                 new Label("Welcome, ", "WelcomeWhite"),
                 new Label("", "WelcomeBlue")
         );
-        
+
         getTitleArea().setUIID("Container");
-        
+
         Image profilePic = theme.getImage("user-picture.jpg");
         Image mask = theme.getImage("round-mask.png");
 //        profilePic = profilePic.fill(mask.getWidth(), mask.getHeight());
 //        Label profilePicLabel = new Label(profilePic, "ProfilePic");
 //        profilePicLabel.setMask(mask.createMask());
-        
-        TextField login = new TextField("nahawand.laajili@gmail.com", "Login", 20, TextField.EMAILADDR) ;
-        TextField password = new TextField("password", "Mot de passe", 20, TextField.PASSWORD) ;
+
+        TextField login = new TextField("Admin", "Login", 20, TextField.EMAILADDR);
+        TextField password = new TextField("1234", "Mot de passe", 20, TextField.PASSWORD);
         login.getAllStyles().setMargin(LEFT, 0);
         password.getAllStyles().setMargin(LEFT, 0);
         Label loginIcon = new Label("", "TextField");
@@ -71,7 +70,7 @@ public class LoginForm extends Form {
         passwordIcon.getAllStyles().setMargin(RIGHT, 0);
         FontImage.setMaterialIcon(loginIcon, FontImage.MATERIAL_PERSON_OUTLINE, 3);
         FontImage.setMaterialIcon(passwordIcon, FontImage.MATERIAL_LOCK_OUTLINE, 3);
-        
+
         Button loginButton = new Button("LOGIN");
         loginButton.setUIID("LoginButton");
         loginButton.addActionListener(e -> {
@@ -79,47 +78,46 @@ public class LoginForm extends Form {
             new WalkthruForm(theme).show();
             Toolbar.setGlobalToolbar(true);
         });
-        
-          loginButton.addActionListener((e) -> {
-            System.out.println("connection buuton clicked");
+
+        loginButton.addActionListener((e) -> {
+            System.out.println("connection button clicked");
 //            UserService us = new UserService();
-            if(verifierChamps(login.getText(), password.getText())){
-            UserService.getInstance().Login(login.getText(), password.getText());
-            
-            if (Statics.current_user == null) {
-                if (Dialog.show("Error", "Username ou mot de passe incorrect", "ok", null)) {
+            if (verifierChamps(login.getText(), password.getText())) {
+                UserService.getInstance().Login(login.getText(), password.getText());
 
-                    showBack();
-                }
-            } else {
-                
-                Toolbar.setGlobalToolbar(false);
-                new WalkthruForm(theme).show();
-                Toolbar.setGlobalToolbar(true);
-
-            }}
+//                if (Statics.current_user == null) {
+//                    if (Dialog.show("Error", "Username ou mot de passe incorrect", "ok", null)) {
+//
+//                        showBack();
+//                    }
+//                } else {
+//
+//                    Toolbar.setGlobalToolbar(false);
+//                    new WalkthruForm(theme).show();
+//                    Toolbar.setGlobalToolbar(true);
+//
+//                }
+            }
 
         });
-            
+
         Button createNewAccount = new Button("CREATE NEW ACCOUNT");
         createNewAccount.setUIID("CreateNewAccountButton");
         createNewAccount.addActionListener((e) -> {
-                new RegisterForm(theme).show();
+            new RegisterForm(theme).show();
         });
-        
-        
+
         // We remove the extra space for low resolution devices so things fit better
         Label spaceLabel;
-        if(!Display.getInstance().isTablet() && Display.getInstance().getDeviceDensity() < Display.DENSITY_VERY_HIGH) {
+        if (!Display.getInstance().isTablet() && Display.getInstance().getDeviceDensity() < Display.DENSITY_VERY_HIGH) {
             spaceLabel = new Label();
         } else {
             spaceLabel = new Label(" ");
         }
-        
-        
-         Container by = BoxLayout.encloseY(
+
+        Container by = BoxLayout.encloseY(
                 welcome,
-//                profilePicLabel,
+                //                profilePicLabel,
                 spaceLabel,
                 BorderLayout.center(login).
                         add(BorderLayout.WEST, loginIcon),
@@ -129,22 +127,22 @@ public class LoginForm extends Form {
                 createNewAccount
         );
         add(BorderLayout.CENTER, by);
-        
+
         // for low res and landscape devices
         by.setScrollableY(true);
         by.setScrollVisible(false);
     }
-    
-     public boolean verifierChamps(String login,String password){
-         if(login.equals("")){
-                Dialog.show("Error", "Veuillez remplir le champ par votre Username ou Email","OK",null);
-                return false;
-            }
-         if(password.equals("")){
-                Dialog.show("Error", "Veuillez écrire votre mot de passe!","OK",null);
-                return false;
-            }
-         
+
+    public boolean verifierChamps(String login, String password) {
+        if (login.equals("")) {
+            Dialog.show("Error", "Veuillez remplir le champ par votre Username ou Email", "OK", null);
+            return false;
+        }
+        if (password.equals("")) {
+            Dialog.show("Error", "Veuillez écrire votre mot de passe!", "OK", null);
+            return false;
+        }
+
         return true;
     }
 }

@@ -6,31 +6,23 @@
 package com.mycompany.myapp.gui;
 
 import com.codename1.charts.util.ColorUtil;
-import com.codename1.components.ImageViewer;
 import com.codename1.components.InteractionDialog;
-import com.codename1.l10n.Format;
-import com.codename1.l10n.SimpleDateFormat;
 import com.codename1.ui.Button;
 import com.codename1.ui.Container;
 import com.codename1.ui.EncodedImage;
 import com.codename1.ui.Font;
 import com.codename1.ui.FontImage;
-import com.codename1.ui.Graphics;
+import com.codename1.ui.util.Resources;
 import com.codename1.ui.Image;
 import com.codename1.ui.Label;
 import com.codename1.ui.PickerComponent;
 import com.codename1.ui.TextField;
 import com.codename1.ui.Toolbar;
-import com.codename1.ui.URLImage;
 import com.codename1.ui.geom.Dimension;
 import com.codename1.ui.layouts.BorderLayout;
 import com.codename1.ui.layouts.BoxLayout;
 import com.codename1.ui.layouts.FlowLayout;
-import com.codename1.ui.util.Resources;
-import com.mycompany.myapp.entities.Location;
-import com.mycompany.myapp.services.ServiceLocation;
 import com.mycompany.myapp.utils.Statics;
-import java.io.IOException;
 
 /**
  *
@@ -41,16 +33,16 @@ public class ListLocationsForm extends SideMenuBaseForm {
     private EncodedImage palceHolder;
 
     public ListLocationsForm(Resources res) {
-        super(new BorderLayout());
+       super(new BorderLayout());
         Toolbar tb = getToolbar();
         tb.setTitleCentered(false);
         Image profilePic = res.getImage("velo.jpg");
-        Image tintedImage = Image.createImage(profilePic.getWidth(), profilePic.getHeight());
-        Graphics g = tintedImage.getGraphics();
-        g.drawImage(profilePic, 0, 0);
-        g.drawImage(res.getImage("gradient-overlay.png"), 0, 0, profilePic.getWidth(), profilePic.getHeight());
+//        Image tintedImage = Image.createImage(profilePic.getWidth(), profilePic.getHeight());
+//        Graphics g = tintedImage.getGraphics();
+//        g.drawImage(profilePic, 0, 0);
+//        g.drawImage(res.getImage("gradient-overlay.png"), 0, 0, profilePic.getWidth(), profilePic.getHeight());
 
-        tb.getUnselectedStyle().setBgImage(tintedImage);
+//        tb.getUnselectedStyle().setBgImage(tintedImage);
 
         Button menuButton = new Button("");
         menuButton.setUIID("Title");
@@ -152,83 +144,13 @@ public class ListLocationsForm extends SideMenuBaseForm {
         con4.add(BoxLayout.encloseXRight(tRech, rechButton));
 
         add(BorderLayout.NORTH, con5);
-        if (!ServiceLocation.getInstance().getAllLocations().isEmpty()) {
-            Container con3 = new Container(BoxLayout.y());
+        
+        
+         //begin
+       
 
-            for (Location l : ServiceLocation.getInstance().getAllLocations() ) {
-                /*    private String titre; 
-    private String lieu;
-    private float prix;
-    private String photo;
-    private int rating;
-    private String dateCreation;
-                 */
-
-                int id = l.getId();
-                String titre = l.getTitre();
-                String lieu = l.getLieu();
-                String prix = String.valueOf(l.getPrix());
-                String image = l.getPhoto();
-                String dateCreation = l.getDateCreation().toString();
-
-                Label lTitre = new Label("Titre: " + titre);
-                Label lLieu = new Label("Lieu: " + lieu);
-                Label lPrix = new Label("Prix DT: " + prix);
-                Format dateFormat = new SimpleDateFormat("dd/MM/yyyy");
-                String ress = dateFormat.format(l.getDateCreation());
-                Label lDateCreation = new Label("Publiée le : " + ress);
-
-                Button bAfficher = new Button("Afficher");
-                bAfficher.addActionListener(e -> {
-//                    Annonce a1=new Annonce();
-                    Statics.current_location = l;
-                    System.out.println("testtt");
-                    AfficherLocation afficherLocation = new AfficherLocation(res, l);
-
-//                  Form afficherAnnonceForm=afficherAnnonce.getAffichertAnnonceForm();
-                    afficherLocation.show();
-//                    Form fa=afficher(a);
-//                    fa.show();
-                });
-
-                System.out.println("Location= id: " + id + " Titre: " + titre + " Lieu: " + lieu + " Publié le: " + " image: " + image);
-                Container con = new Container(BoxLayout.x());
-                Container con1 = new Container(BoxLayout.y());
-                ImageViewer imgv = new ImageViewer();
-
-                try {
-                    palceHolder = EncodedImage.create("/giphy.gif");
-                } catch (IOException ex) {
-
-                }
-
-                if (image != null) {
-                    URLImage urlImage = URLImage.createToStorage(palceHolder, image, "http://127.0.0.1/rent/uploads/location/" + image);
-                    imgv.setImage(urlImage);
-
-                }
-                if (image == null) {
-//                    imgv=new ImageViewer(res.getImage("noimagefound.jpg").scaled(120, 100));
-                }
-                con1.addAll(lTitre, lLieu, lPrix, lDateCreation);
-                con.addAll(imgv, con1);
-
-                con3.addAll(con, bAfficher);
-            }
-            con3.setScrollableY(true);
-            System.out.println("sroll : " + con3.isScrollableY());
-            add(BorderLayout.CENTER, con3);
-
-        } else {
-            Container cont = new Container(BoxLayout.y());
-            cont.add(BoxLayout.encloseXCenter(new Label("Aucune publication à afficher")));
-            add(BorderLayout.CENTER, cont);
-
-        }
-
-        setupSideMenu(res);
     }
-
+    //end
     @Override
     protected void showOtherForm(Resources res) {
         new ProfileForm(res).show();

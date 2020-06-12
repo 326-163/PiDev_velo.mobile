@@ -10,100 +10,100 @@ import com.codename1.io.ConnectionRequest;
 import com.codename1.io.JSONParser;
 import com.codename1.io.NetworkEvent;
 import com.codename1.io.NetworkManager;
-import com.codename1.ui.events.ActionListener;
-import java.io.IOException;
 import java.util.Map;
-import com.mycompany.myapp.entities.fos_user;
+import com.codename1.l10n.ParseException;
+import com.codename1.ui.events.ActionListener;
+import com.mycompany.myapp.utils.UserSession;
+import com.mycompany.myapp.entities.User;
 import com.mycompany.myapp.utils.Statics;
+import java.io.IOException;
 import java.util.ArrayList;
-import java.util.List;
 
 /**
  *
  * @author nahawnd
  */
 public class UserService {
-      public ArrayList<fos_user> users;
-    public static UserService instance=null;
-    public boolean resultOK;
-    private ConnectionRequest req;
 
-    private UserService() {
-         req = new ConnectionRequest();
+    public static UserService instance;
+    private ConnectionRequest req;
+    
+      
+     public ArrayList<User> users;
+    public boolean resultOK;
+
+
+    public UserService() {
+        req = new ConnectionRequest();
     }
 
     public static UserService getInstance() {
-        
         if (instance == null) {
             instance = new UserService();
         }
         return instance;
     }
+    boolean result;
 
-    public boolean addUser(fos_user t)
-    {
-        
-     String url = Statics.BASE_URL + "/users/" +t.getUsername()+"/"+ t.getUsernameCanonical()+ "/" + t.getEmail()+"/"+t.getEmailCanonical()+"/"+ t.getEnabled()+"/"+t.getPassword()+"/"+t.getRoles()+"/"+"/"+t.getTelephone()+"/"+t.getPhoto();
-        req.setUrl(url);
-        req.addResponseListener(new ActionListener<NetworkEvent>() 
-        {
-            @Override
-            public void actionPerformed(NetworkEvent evt) {
-                resultOK = req.getResponseCode() == 200; //Code HTTP 200 OK
-                req.removeResponseListener(this);
+    public boolean loginAction(String username, String password) {
+
+        // création d'une nouvelle demande de connexion
+        String url = Statics.BASE_URL + "/login" + username + "/" + password;
+        req.setUrl(url);// Insertion de l'URL de notre demande de connexion
+
+        req.addResponseListener((e) -> {
+            result = req.getResponseCode() == 200;
+            if (result) {
+                try {
+                    parseListUserJson(new String(req.getResponseData()));
+                    String str = new String(req.getResponseData());//Récupération de la réponse du serveur
+                    System.out.println(str);//Affichage de la réponse serveur sur la console
+                } catch (ParseException ex) {
+
+                }
             }
         });
-        NetworkManager.getInstance().addToQueueAndWait(req);
-        return resultOK;   
+        NetworkManager.getInstance().addToQueueAndWait(req);// Ajout de notre demande de connexion à la file d'attente du NetworkManager
+        return result;
     }
-    
-    
-    
-    public ArrayList<fos_user> parseUsers(String jsonText){
+
+    public User parseListUserJson(String json) throws ParseException {
+
+        User u = new User();
         try {
-            users=new ArrayList<>();
             JSONParser j = new JSONParser();
-            Map<String,Object> tasksListJson = j.parseJSON(new CharArrayReader(jsonText.toCharArray()));
-            
-            List<Map<String,Object>> list = (List<Map<String,Object>>)tasksListJson.get("root");
-            for(Map<String,Object> obj : list){
-                fos_user t = new fos_user();
-                float id = Float.parseFloat(obj.get("id").toString());
-                t.setId((int)id);
-                t.setEmail(obj.get("email").toString());
-                t.setUsername(obj.get("username").toString());
-                 t.setPassword(obj.get("password").toString());
-            users.add(t);
+
+            Map<String, Object> obj = j.parseJSON(new CharArrayReader(json.toCharArray()));
+            u.setId((int) (double) obj.get("id"));
+            u.setUsername(obj.get("username").toString());
+            u.setEmail(obj.get("email").toString());
+            u.setRoles(obj.get("roles").toString());
+            if (obj.get("telephoneNumber") != null) {
+                u.setTelephone(obj.get("telephoneNumber").toString());
             }
-            
-            
+            if (obj.get("profilePic") != null) {
+                u.setPhoto(obj.get("profilePic").toString());
+            }
+
+            if (obj.get("nom") != null) {
+                u.setNom(obj.get("name").toString());
+            }
+            if (obj.get("prenom") != null) {
+                u.setPrenom(obj.get("firstName").toString());
+            }
+
+            UserSession z = UserSession.getInstance(u);
+            System.out.println(UserSession.instance);
+
         } catch (IOException ex) {
-            
         }
-        return users;
+
+        return u;
     }
-    
-    
-     public ArrayList<fos_user> getAllUsers(){
-        String url = Statics.BASE_URL+"/users/all";
-        req.setUrl(url);
-        req.setPost(false);
-        req.addResponseListener(new ActionListener<NetworkEvent>() {
-            @Override
-            public void actionPerformed(NetworkEvent evt) {
-                users = parseUsers(new String(req.getResponseData()));
-                req.removeResponseListener(this);
-            }
-        });
-        NetworkManager.getInstance().addToQueueAndWait(req);
-        return users;
-    }
-    
-    
-    public void Login(String username, String password) {
-//        ConnectionRequest con = new ConnectionRequest();
-        req.setPost(true);
-        req.setUrl(Statics.BASE_URL+"/login");
+
+      public void Login(String username, String password) {
+       req.setPost(true);
+        req.setUrl(Statics.BASE_URL + "/login");
         req.addArgument("username", username);
         req.addArgument("password", password);
         req.addResponseListener(new ActionListener<NetworkEvent>() {
@@ -116,36 +116,36 @@ public class UserService {
                     try {
                         u = j.parseJSON(new CharArrayReader(json.toCharArray()));
 
-                        Statics.current_user = new fos_user((int) Float.parseFloat(u.get("id").toString()));
+                        Statics.current_user = new User((int) Float.parseFloat(u.get("id").toString()));
                         Statics.current_user.setUsername(u.get("username").toString());
                         Statics.current_user.setEmail(u.get("email").toString());
-                        Statics.current_user.setPhoto(u.get("photo").toString());
+//                        Statics.current_user.setPhoto(u.get("photo").toString());
                         Statics.current_user.setNom(u.get("nom").toString());
                         Statics.current_user.setPrenom(u.get("prenom").toString());
                         Statics.current_user.setTelephone(u.get("telephone").toString());
                         Statics.current_user.setRoles(u.get("roles").toString());
-                        //Statics.out.println("tel : "+u.get("telephone").toString());
-                        System.out.println(Statics.current_user);//kenet statics.out
+                        System.out.println("tel : " + u.get("telephone").toString());
+                        System.out.println(Statics.current_user);
                     } catch (IOException ex) {
                         System.out.println(ex);
                     }
                 }
             }
         });
-        NetworkManager.getInstance().addToQueueAndWait(req);
+//        NetworkManager.getInstance().addToQueueAndWait(req);
     }
 
-    public void Register(fos_user user) {
+    public void Register(User u) {
 //        ConnectionRequest con = new ConnectionRequest();
         req.setPost(true);
-        req.setUrl(Statics.BASE_URL+"/register");
-        req.addArgument("username", user.getUsername());
-        req.addArgument("nom", user.getNom());
-        req.addArgument("prenom", user.getPrenom());
-        req.addArgument("email", user.getEmail());
-        req.addArgument("telephone", user.getTelephone());
-        req.addArgument("password", user.getPassword());
-        req.addArgument("photo", user.getPhoto());
+        req.setUrl(Statics.BASE_URL + "/register");
+        req.addArgument("username", u.getUsername());
+        req.addArgument("nom", u.getNom());
+        req.addArgument("prenom", u.getPrenom());
+        req.addArgument("email", u.getEmail());
+        req.addArgument("telephone", u.getTelephone());
+        req.addArgument("password", u.getPassword());
+        req.addArgument("photo", u.getPhoto());
         req.addArgument("roles", "ROLE_USER");
         req.addResponseListener(new ActionListener<NetworkEvent>() {
             @Override
@@ -157,7 +157,7 @@ public class UserService {
                     try {
                         u = j.parseJSON(new CharArrayReader(json.toCharArray()));
 
-                        Statics.current_user=user;
+//                        Statics.current_user = user;
                         Statics.current_user.setId((int) Float.parseFloat(u.get("id").toString()));
                         Statics.current_user.setRoles("ROLE_USER");
                         System.out.println(Statics.current_user);
@@ -169,6 +169,4 @@ public class UserService {
         });
         NetworkManager.getInstance().addToQueueAndWait(req);
     }
-    
-  
 }

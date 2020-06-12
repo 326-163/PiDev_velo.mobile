@@ -91,15 +91,15 @@ public class ServiceReservation {
         req.removeAllArguments();
 
  if (Statics.current_choice == 1) {
-            req.setUrl(Statics.BASE_URL+"/reservations/all");
+            req.setUrl(Statics.BASE_URL+"/api/reservations/all");
 //            req.addArgument("user", String.valueOf(Statics.current_user.getId()));
         }
-        else  if (Statics.current_choice == 2) {
-                req.setUrl(Statics.BASE_URL+"/annonce/mesannoncem/");
-                req.addArgument("user", String.valueOf(Statics.current_user.getId()));
-            } 
-        else if (Statics.current_choice == 3) {
-                    req.setUrl(Statics.BASE_URL+"/annonce/recherche/");
+//        else  if (Statics.current_choice == 2) {
+//                req.setUrl(Statics.BASE_URL+"/api/mobile/reservation/mesreservations/");
+//                req.addArgument("user", String.valueOf(Statics.current_user.getId()));
+//            } 
+        else if (Statics.current_choice == 2) {
+                    req.setUrl(Statics.BASE_URL+"/api/reservation/recherche");
                     req.addArgument("recherche", String.valueOf(Statics.current_search));
                 } 
 
@@ -111,7 +111,7 @@ public class ServiceReservation {
                 req.removeResponseListener(this);
             }
         });
-        NetworkManager.getInstance().addToQueueAndWait(req);
+//        NetworkManager.getInstance().addToQueueAndWait(req);
         return reservations;
     }
 
@@ -130,7 +130,7 @@ public class ServiceReservation {
     public void addReservation(Reservation r) {
         req.removeAllArguments();
         req.setPost(true);
-        req.setUrl(Statics.BASE_URL + "/reservation/new");
+        req.setUrl(Statics.BASE_URL + "/api/reservation/new");
         req.addArgument("titre", String.valueOf(r.getTitre()));
         req.addArgument("date debut", new SimpleDateFormat("dd-MM-yyyy").format(r.getDateDeb()));
         req.addArgument("date fin", new SimpleDateFormat("dd-MM-yyyy").format(r.getDateFin()));
@@ -200,19 +200,21 @@ public class ServiceReservation {
     
     
     public void updateReservation(Reservation r) {
-        ConnectionRequest con = new ConnectionRequest();
+//        ConnectionRequest con = new ConnectionRequest();
 
         String url = "http://127.0.0.1:8000/api/reservation/update"
-                + r.getId() + "/" + r.getDateDeb()
+                
+                + r.getId() 
+                + "/" + r.getDateDeb()
                 + "/" + r.getDateFin();
         System.err.println(url);
-        con.setUrl(url);
-        con.addResponseListener((e) -> {
-            String str = new String(con.getResponseData());
+        req.setUrl(url);
+        req.addResponseListener((e) -> {
+            String str = new String(req.getResponseData());
             System.out.println(str);
             System.out.println("Reservation updated");
         });
-        NetworkManager.getInstance().addToQueueAndWait(con); //appel asynchrone
+        NetworkManager.getInstance().addToQueueAndWait(req); //appel asynchrone
     }
 
     

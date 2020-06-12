@@ -26,6 +26,7 @@ import com.codename1.ui.util.Resources;
 import com.mycompany.myapp.entities.Reservation;
 import com.mycompany.myapp.services.ServiceReservation;
 import com.mycompany.myapp.utils.Statics;
+import com.mycompany.myapp.gui.SideMenuBaseForm;
 import java.util.Date;
 
 /**
@@ -45,12 +46,12 @@ public class AddReservationForm extends SideMenuBaseForm {
         Toolbar tb = getToolbar();
         tb.setTitleCentered(false);
         Image profilePic = res.getImage("ajout.jpg");
-        Image tintedImage = Image.createImage(profilePic.getWidth(), profilePic.getHeight());
-        Graphics g = tintedImage.getGraphics();
-        g.drawImage(profilePic, 0, 0);
-        g.drawImage(res.getImage("gradient-overlay.png"), 0, 0, profilePic.getWidth(), profilePic.getHeight());
-
-        tb.getUnselectedStyle().setBgImage(tintedImage);
+//        Image tintedImage = Image.createImage(profilePic.getWidth(), profilePic.getHeight());
+//        Graphics g = tintedImage.getGraphics();
+//        g.drawImage(profilePic, 0, 0);
+//        g.drawImage(res.getImage("gradient-overlay.png"), 0, 0, profilePic.getWidth(), profilePic.getHeight());
+//
+//        tb.getUnselectedStyle().setBgImage(tintedImage);
 
         Button menuButton = new Button("");
         menuButton.setUIID("Title");
@@ -80,9 +81,8 @@ public class AddReservationForm extends SideMenuBaseForm {
         Label separator = new Label("", "BlueSeparatorLine");
         separator.setShowEvenIfBlank(true);
         add(BorderLayout.NORTH, separator);
-    //#####begin
-    
-    
+        //#####begin
+
         Label lTitre = new Label("Titre");
         lTitre.getAllStyles().setFont(Font.createSystemFont(Font.FACE_SYSTEM, Font.STYLE_BOLD, Font.SIZE_SMALL));
         TextField tTitre = new TextField("", "Titre");
@@ -102,9 +102,7 @@ public class AddReservationForm extends SideMenuBaseForm {
         System.out.println("date md formated : " + datesmd);
         PickerComponent tdateDeb = PickerComponent.createDate(datemd).label("Date debut");
 
-   
-        
-          Label ldateFin = new Label("Date fin");
+        Label ldateFin = new Label("Date fin");
         System.out.println("date md : " + r.getDateFin());
         try {
             datemd = simpleDateFormat.parse(datesmd);
@@ -114,41 +112,55 @@ public class AddReservationForm extends SideMenuBaseForm {
         System.out.println("date md formated : " + datesmd);
         PickerComponent tdateFin = PickerComponent.createDate(datemd).label("Date fin");
 
-        Button bAjouter = new Button("Valider");
-        FontImage.setMaterialIcon(bAjouter, FontImage.MATERIAL_ADD, 5);
+        Button add = new Button("Réserver");
+        FontImage.setMaterialIcon(add, FontImage.MATERIAL_ADD, 5);
         Container cont = new Container(BoxLayout.y());
-        
-         cont.addAll(lTitre, tTitre,  ldateDeb, tdateDeb,ldateFin, tdateFin, bAjouter);
+
+        cont.addAll(lTitre, tTitre, ldateDeb, tdateDeb, ldateFin, tdateFin, add);
         add(BorderLayout.CENTER, cont);
-        bAjouter.addActionListener(e1 -> {
-            
-  Date date5 = new Date();
+        add.addActionListener(e1 -> {
+
+            Date date5 = new Date();
             date5 = (Date) tdateDeb.getPicker().getValue();
             String dd = simpleDateFormat.format(date5);
             System.out.println(dd);
-                
+
             r.setTitre(tTitre.getText());
             r.setDateDeb(date5);
             r.setDateFin(date5);
-                
+
             System.out.println(r);
-        //    if (verifierChamps(r, tPrix.getText())) {
-           //     r.setPrix((int) Integer.parseInt(tPrix.getText()));
-                
-                ServiceReservation.getInstance().addReservation(r);
-                System.out.println("Reservation ajoutée avec succès");
-                Statics.current_choice = 1;
-              ListReservationsForm listReservationsForm = new  ListReservationsForm(res);
-//                 Form listeAnnoncesForm = listeAnnonces.getListeAnnoncesForm();
-                listReservationsForm.show();
-           // }           
+            //    if (verifierChamps(r, tPrix.getText())) {
+            //     r.setPrix((int) Integer.parseInt(tPrix.getText()));
+
+            ServiceReservation.getInstance().addReservation(r);
+            System.out.println("Reservation ajoutée avec succès");
+            Statics.current_choice = 1;
+            ListReservationsForm listReservationsForm = new ListReservationsForm(res);
+            listReservationsForm.show();
+            // }           
 
         });
         //#####end
 
-        setupSideMenu(res);
-        
-        /*  setTitle("Add a new Reservation");
+//        setupSideMenu(res);
+    }
+
+    @Override
+    protected void showOtherForm(Resources res) {
+        new ProfileForm(res).show();
+    }
+
+    public boolean verifierChamps(Reservation r, Date dateDeb, Date dateFin) {
+
+        if (r.getTitre().equals("")) {
+            Dialog.show("Error", "Veuillez remplir le champ par un titre", "OK", null);
+            return false;
+        }
+        return true;
+    }
+
+    /*  setTitle("Add a new Reservation");
         setLayout(BoxLayout.y());
 
         TextField tfDateDeb = new TextField("", "ReservationDateDebut");
@@ -185,20 +197,5 @@ public class AddReservationForm extends SideMenuBaseForm {
 
         addAll(dateDeb, dateFin, btnValider);
         getToolbar().addMaterialCommandToLeftBar("", FontImage.MATERIAL_ARROW_BACK, e -> previous.showBack());
-         */
-    }
-
-    @Override
-    protected void showOtherForm(Resources res) {
-        new ProfileForm(res).show();
-    }
-    
-      public boolean verifierChamps(Reservation r, Date dateDeb,Date dateFin) {
-      
-        if (r.getTitre().equals("")) {
-            Dialog.show("Error", "Veuillez remplir le champ par un titre", "OK", null);
-            return false;
-        }
-       return true;
-    }
+     */
 }

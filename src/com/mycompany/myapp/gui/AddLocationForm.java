@@ -9,6 +9,7 @@ package com.mycompany.myapp.gui;
 
 import com.codename1.capture.Capture;
 import com.codename1.charts.util.ColorUtil;
+import com.codename1.components.OnOffSwitch;
 import com.codename1.io.MultipartRequest;
 import com.codename1.l10n.ParseException;
 import com.codename1.l10n.SimpleDateFormat;
@@ -17,7 +18,6 @@ import com.codename1.ui.Container;
 import com.codename1.ui.Dialog;
 import com.codename1.ui.Font;
 import com.codename1.ui.FontImage;
-import com.codename1.ui.Graphics;
 import com.codename1.ui.Image;
 import com.codename1.ui.Label;
 import com.codename1.ui.PickerComponent;
@@ -33,6 +33,7 @@ import com.mycompany.myapp.entities.Location;
 import com.mycompany.myapp.services.ServiceLocation;
 import com.mycompany.myapp.utils.Statics;
 import java.io.IOException;
+import com.mycompany.myapp.gui.SideMenuBaseForm;
 import java.util.Date;
 
 /**
@@ -41,8 +42,6 @@ import java.util.Date;
  */
 public class AddLocationForm extends SideMenuBaseForm {
 
-    //private Resources theme;
-    // private Form current;
     Location l = new Location();
     String fileNameInServer = "";
     boolean upim = true;
@@ -52,13 +51,12 @@ public class AddLocationForm extends SideMenuBaseForm {
         Toolbar tb = getToolbar();
         tb.setTitleCentered(false);
         Image profilePic = res.getImage("ajout.jpg");
-        Image tintedImage = Image.createImage(profilePic.getWidth(), profilePic.getHeight());
-        Graphics g = tintedImage.getGraphics();
-        g.drawImage(profilePic, 0, 0);
-        g.drawImage(res.getImage("gradient-overlay.png"), 0, 0, profilePic.getWidth(), profilePic.getHeight());
+//        Image tintedImage = Image.createImage(profilePic.getWidth(), profilePic.getHeight());
+//        Graphics g = tintedImage.getGraphics();
+//        g.drawImage(profilePic, 0, 0);
+//        g.drawImage(res.getImage("gradient-overlay.png"), 0, 0, profilePic.getWidth(), profilePic.getHeight());
 
-        tb.getUnselectedStyle().setBgImage(tintedImage);
-
+//        tb.getUnselectedStyle().setBgImage(tintedImage);
         Button menuButton = new Button("");
         menuButton.setUIID("Title");
         FontImage.setMaterialIcon(menuButton, FontImage.MATERIAL_MENU);
@@ -88,6 +86,7 @@ public class AddLocationForm extends SideMenuBaseForm {
         separator.setShowEvenIfBlank(true);
         add(BorderLayout.NORTH, separator);
 
+        //begin
         Label lTitre = new Label("Titre");
         lTitre.getAllStyles().setFont(Font.createSystemFont(Font.FACE_SYSTEM, Font.STYLE_BOLD, Font.SIZE_SMALL));
         TextField tTitre = new TextField("", "Titre");
@@ -104,14 +103,6 @@ public class AddLocationForm extends SideMenuBaseForm {
         tPrix.getAllStyles().setFgColor(ColorUtil.BLACK);
         tPrix.getAllStyles().setFont(Font.createSystemFont(Font.FACE_SYSTEM, Font.STYLE_PLAIN, Font.SIZE_MEDIUM));
 
-        /* Label lDescriprion = new Label("Descriprion");
-        lDescriprion.getAllStyles().setFont(Font.createSystemFont(Font.FACE_SYSTEM, Font.STYLE_BOLD, Font.SIZE_SMALL));
-        TextField tDescriprion = new TextField("", "Descriprion");
-        tDescriprion.setSingleLineTextArea(false);
-        tDescriprion.setRows(3);
-        tDescriprion.getAllStyles().setFgColor(ColorUtil.BLACK);
-        tDescriprion.getAllStyles().setFont(Font.createSystemFont(Font.FACE_SYSTEM, Font.STYLE_PLAIN, Font.SIZE_MEDIUM));
-         */
         Label lPhoto = new Label("Photo");
         lPhoto.getAllStyles().setFont(Font.createSystemFont(Font.FACE_SYSTEM, Font.STYLE_BOLD, Font.SIZE_SMALL));
         Button upload = new Button("upload");
@@ -153,41 +144,93 @@ public class AddLocationForm extends SideMenuBaseForm {
         System.out.println("date md formated : " + datesmd);
         PickerComponent tdateCreation = PickerComponent.createDate(datemd).label("Date creation");
 
-        Button bAjouter = new Button("Publier location");
-        FontImage.setMaterialIcon(bAjouter, FontImage.MATERIAL_ADD, 5);
+         Label lActive = new Label("Active");
+        OnOffSwitch tActive = new OnOffSwitch();
+        
+        
+        Button Valider = new Button("Publier location");
+        FontImage.setMaterialIcon(Valider, FontImage.MATERIAL_ADD, 5);
         Container cont = new Container(BoxLayout.y());
 
-        cont.addAll(lTitre, tTitre, lPrix, tPrix, lLieu, tLieu, ldateCreation, tdateCreation, lPhoto, upload, bAjouter);
+        cont.addAll(lTitre, tTitre, lPrix, tPrix, lLieu, tLieu, ldateCreation, tdateCreation, lPhoto, upload ,lActive, tActive, Valider);
         add(BorderLayout.CENTER, cont);
-        bAjouter.addActionListener(e1 -> {
+        Valider.addActionListener(e1 -> {
 
 //          SimpleDateFormat simpleDateFormat = new SimpleDateFormat("dd/MM/yyyy");
             Date date5 = new Date();
             date5 = (Date) tdateCreation.getPicker().getValue();
             String dd = simpleDateFormat.format(date5);
             System.out.println(dd);
-                
+
             l.setTitre(tTitre.getText());
             l.setLieu(tLieu.getPicker().getSelectedString());
-
             l.setDateCreation(date5);
-                
-                System.out.println(l);
+
+              l.setId(Statics.current_user.getId());
+            if (tActive.isValue()) {
+                l.setActive(true);
+            } else {
+                l.setActive(false);
+            }
+            
+         
+            System.out.println(l);
             if (verifierChamps(l, tPrix.getText())) {
                 l.setPrix((int) Integer.parseInt(tPrix.getText()));
                 ServiceLocation.getInstance().addLocation(l);
                 System.out.println("Publication ajoutée avec succès");
                 Statics.current_choice = 1;
-              ListLocationsForm listLocationsForm = new ListLocationsForm(res);
+                ListLocationsForm listLocationsForm = new ListLocationsForm(res);
 //                 Form listeAnnoncesForm = listeAnnonces.getListeAnnoncesForm();
                 listLocationsForm.show();
             }
 
         });
-        //#####end
+        //end
 
-        setupSideMenu(res);
-   /*     setTitle("Add a new Location");
+//        setupSideMenu(res);
+    }
+
+    @Override
+
+    protected void showOtherForm(Resources res) {
+        new ProfileForm(res).show();
+    }
+
+    public boolean verifierChamps(Location l, String prix) {
+        int p;
+        if (l.getTitre().equals("")) {
+            Dialog.show("Error", "Veuillez remplir le champ par un titre", "OK", null);
+            return false;
+        }
+        if (l.getLieu().equals("")) {
+            Dialog.show("Error", "Veuillez Saisir votre lieu", "OK", null);
+            return false;
+        }
+        if (prix.equals("")) {
+            Dialog.show("Error", "Veuillez écrire un prix", "OK", null);
+            return false;
+        }
+        try {
+            p = Integer.parseInt(prix);
+        } catch (NumberFormatException ex) {
+            Dialog.show("Error", "Le prix doit contenir que des caractères numériques!", "OK", null);
+            return false;
+        }
+        if (p <= 0) {
+            Dialog.show("Error", "Veuillez écrire un prix supérieur à 0", "OK", null);
+            return false;
+        }
+
+        if (fileNameInServer.equals("")) {
+            Dialog.show("Error", "Veuillez choisir une photo", "OK", null);
+            return false;
+        }
+
+        return true;
+    }
+
+    /*     setTitle("Add a new Location");
         setLayout(BoxLayout.y());
 
         Form F = new Form("Ajout", BoxLayout.y());
@@ -248,45 +291,4 @@ public class AddLocationForm extends SideMenuBaseForm {
         F.getToolbar().addCommandToLeftBar("Back", null, ev -> {
             F.show();
         });*/
-    }
-
-  @Override
-
-    protected void showOtherForm(Resources res) {
-        new ProfileForm(res).show();
-    }
-
-    public boolean verifierChamps(Location l, String prix) {
-        int p;
-        if (l.getTitre().equals("")) {
-            Dialog.show("Error", "Veuillez remplir le champ par un titre", "OK", null);
-            return false;
-        }
-        if (l.getLieu().equals("")) {
-            Dialog.show("Error", "Veuillez Saisir votre lieu", "OK", null);
-            return false;
-        }
-        if (prix.equals("")) {
-            Dialog.show("Error", "Veuillez écrire un prix", "OK", null);
-            return false;
-        }
-        try {
-            p = Integer.parseInt(prix);
-        } catch (NumberFormatException ex) {
-            Dialog.show("Error", "Le prix doit contenir que des caractères numériques!", "OK", null);
-            return false;
-        }
-        if (p <= 0) {
-            Dialog.show("Error", "Veuillez écrire un prix supérieur à 0", "OK", null);
-            return false;
-        }
-
-        if (fileNameInServer.equals("")) {
-            Dialog.show("Error", "Veuillez choisir une photo", "OK", null);
-            return false;
-        }
-
-        return true;
-    }
-
 }

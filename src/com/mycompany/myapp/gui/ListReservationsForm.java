@@ -15,13 +15,11 @@ import com.codename1.ui.Container;
 import com.codename1.ui.EncodedImage;
 import com.codename1.ui.Font;
 import com.codename1.ui.FontImage;
-import com.codename1.ui.Graphics;
 import com.codename1.ui.Image;
 import com.codename1.ui.Label;
 import com.codename1.ui.PickerComponent;
 import com.codename1.ui.TextField;
 import com.codename1.ui.Toolbar;
-import com.codename1.ui.URLImage;
 import com.codename1.ui.geom.Dimension;
 import com.codename1.ui.layouts.BorderLayout;
 import com.codename1.ui.layouts.BoxLayout;
@@ -45,12 +43,12 @@ public class ListReservationsForm extends SideMenuBaseForm {
         Toolbar tb = getToolbar();
         tb.setTitleCentered(false);
         Image profilePic = res.getImage("velo.jpg");
-        Image tintedImage = Image.createImage(profilePic.getWidth(), profilePic.getHeight());
-        Graphics g = tintedImage.getGraphics();
-        g.drawImage(profilePic, 0, 0);
-        g.drawImage(res.getImage("gradient-overlay.png"), 0, 0, profilePic.getWidth(), profilePic.getHeight());
-
-        tb.getUnselectedStyle().setBgImage(tintedImage);
+//        Image tintedImage = Image.createImage(profilePic.getWidth(), profilePic.getHeight());
+//        Graphics g = tintedImage.getGraphics();
+//        g.drawImage(profilePic, 0, 0);
+//        g.drawImage(res.getImage("gradient-overlay.png"), 0, 0, profilePic.getWidth(), profilePic.getHeight());
+//
+//        tb.getUnselectedStyle().setBgImage(tintedImage);
 
         Button menuButton = new Button("");
         menuButton.setUIID("Title");
@@ -152,17 +150,13 @@ public class ListReservationsForm extends SideMenuBaseForm {
         con4.add(BoxLayout.encloseXRight(tRech, rechButton));
 
         add(BorderLayout.NORTH, con5);
-        
-        
-       //#####begin
-  
-            
-       
-        if (!ServiceReservation.getInstance().getReservations().isEmpty()) { 
+
+        //#####begin
+        if (!ServiceReservation.getInstance().getReservations().isEmpty()) {
             Container con3 = new Container(BoxLayout.y());
 
-            for (Reservation r : ServiceReservation.getInstance().getReservations() ) {
- 
+            for (Reservation r : ServiceReservation.getInstance().getReservations()) {
+
                 int id = r.getId();
                 String titre = r.getTitre();
                 String dateDeb = r.getDateDeb().toString();
@@ -171,7 +165,7 @@ public class ListReservationsForm extends SideMenuBaseForm {
                 Label lTitre = new Label("Titre: " + titre);
                 Format dateFormat = new SimpleDateFormat("dd/MM/yyyy");
                 String ress = dateFormat.format(r.getDateDeb());
-                String ress1 = dateFormat.format(r.getDateFin());                
+                String ress1 = dateFormat.format(r.getDateFin());
                 Label ldateDeb = new Label("Date debut : " + ress);
                 Label ldateFin = new Label("Date fin : " + ress);
 
@@ -197,9 +191,9 @@ public class ListReservationsForm extends SideMenuBaseForm {
                     palceHolder = EncodedImage.create("/giphy.gif");
                 } catch (IOException ex) {
 
-                }             
-               
-                con1.addAll(lTitre,ldateDeb, ldateFin );
+                }
+
+                con1.addAll(lTitre, ldateDeb, ldateFin);
                 con.addAll(imgv, con1);
 
                 con3.addAll(con, bAfficher);
@@ -228,7 +222,5 @@ public class ListReservationsForm extends SideMenuBaseForm {
          SpanLabel sp = new SpanLabel();
         sp.setText(ServiceReservation.getInstance().getAllReservations().toString());
         add(sp);
-        getToolbar().addMaterialCommandToLeftBar("",FontImage.MATERIAL_ARROW_BACK,e->previous.showBack());*/
+ getToolbar().addMaterialCommandToLeftBar("back", FontImage.MATERIAL_ARROW_BACK, e-> new HomeForm(res).showBack());*/
 }
-
-

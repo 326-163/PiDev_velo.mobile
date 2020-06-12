@@ -38,17 +38,17 @@ public class ProfileForm extends SideMenuBaseForm {
         super(BoxLayout.y());
         Toolbar tb = getToolbar();
         tb.setTitleCentered(false);
-        String image=Statics.current_user.getPhoto();
-        Image profilePic = null;
-        try {
-                    palceHolder = EncodedImage.create("/giphy.gif");
-                } catch (IOException ex) {
-
-                }
-                if(image!=null){
-                profilePic = URLImage.createToStorage(palceHolder, image, "http://127.0.0.1:8000/Rent/uploads/user/"+image);
-
-                }
+//        String image=Statics.current_user.getPhoto();
+//        Image profilePic = null;
+//        try {
+//                    palceHolder = EncodedImage.create("/giphy.gif");
+//                } catch (IOException ex) {
+//
+//                }
+//                if(image!=null){
+//                profilePic = URLImage.createToStorage(palceHolder, image, "http://127.0.0.1:8000/Rent/uploads/user/"+image);
+//
+//                }
 //        Image profilePic = res.getImage("user-picture.jpg");
                 
 //                ImageViewer imgv = new ImageViewer();
@@ -64,9 +64,9 @@ public class ProfileForm extends SideMenuBaseForm {
 //                }
                 
         Image mask = res.getImage("round-mask.png");
-        profilePic = profilePic.fill(mask.getWidth(), mask.getHeight());
-        Label profilePicLabel = new Label(profilePic, "ProfilePicTitle");
-        profilePicLabel.setMask(mask.createMask());
+//        profilePic = profilePic.fill(mask.getWidth(), mask.getHeight());
+//        Label profilePicLabel = new Label(profilePic, "ProfilePicTitle");
+//        profilePicLabel.setMask(mask.createMask());
 
         Button menuButton = new Button("");
         menuButton.setUIID("Title");
@@ -84,7 +84,7 @@ public class ProfileForm extends SideMenuBaseForm {
         );
         completedTasks.setUIID("CompletedTasks");
         String role;
-        if(Statics.current_user.getRoles().contains("ADMIN")){
+        if(Statics.current_user.getRoles().contains("Admin")){
             role="Administrateur";
         }else{
             role="Membre";
@@ -96,7 +96,7 @@ public class ProfileForm extends SideMenuBaseForm {
                                     new Label(Statics.current_user.getNom()+" "+Statics.current_user.getPrenom(), "Title"),
                                     new Label(role, "SubTitle")
                                 )
-                            ).add(BorderLayout.WEST, profilePicLabel),
+                            ).add(BorderLayout.WEST), //profilePicLabel),
                         GridLayout.encloseIn(2, remainingTasks, completedTasks)
                 );
         

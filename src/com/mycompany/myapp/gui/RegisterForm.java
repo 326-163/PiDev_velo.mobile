@@ -27,7 +27,7 @@ import com.codename1.ui.events.ActionListener;
 import com.codename1.ui.layouts.BorderLayout;
 import com.mycompany.myapp.services.UserService;
 import com.mycompany.myapp.utils.Statics;
-import com.mycompany.myapp.entities.fos_user;
+import com.mycompany.myapp.entities.User;
 import java.io.IOException;
 //import static org.apache.commons.text.CharacterPredicates.DIGITS;
 //import org.apache.commons.text.RandomStringGenerator;
@@ -67,7 +67,7 @@ import java.io.IOException;
  * @author Shai Almog
  */
 public class RegisterForm extends Form {
-            fos_user u=new fos_user();
+            User u=new User();
             String fileNameInServer = "";
             boolean upim=true;
             
@@ -83,9 +83,9 @@ public class RegisterForm extends Form {
         
         Image profilePic = theme.getImage("user.jpg");
         Image mask = theme.getImage("round-mask.png");
-        profilePic = profilePic.fill(mask.getWidth(), mask.getHeight());
+//        profilePic = profilePic.fill(mask.getWidth(), mask.getHeight());
         Label profilePicLabel = new Label(profilePic, "ProfilePic");
-        profilePicLabel.setMask(mask.createMask());
+//        profilePicLabel.setMask(mask.createMask());
         
         TextField tLogin = new TextField("", "Username", 20, TextField.USERNAME) ;
         TextField tNom = new TextField("", "Nom", 20, TextField.USERNAME) ;
@@ -258,7 +258,7 @@ public class RegisterForm extends Form {
         by.setScrollVisible(false);
     }
     
-    public boolean verifierChamps(fos_user u){
+    public boolean verifierChamps(User u){
         if(u.getUsername().equals("")){
                 Dialog.show("Error", "Veuillez remplir le champ par votre Username","OK",null);
                 return false;
