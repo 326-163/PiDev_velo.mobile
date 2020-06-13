@@ -53,13 +53,11 @@ public abstract class SideMenuBaseForm extends Form {
 //        profilePic = profilePic.fill(mask.getWidth(), mask.getHeight());
 //        Label profilePicLabel = new Label("  " + Statics.current_user.getNom() + " " + Statics.current_user.getPrenom(), "SideMenuTitle");
 //        profilePicLabel.setMask(mask.createMask());
-
 //        Container sidemenuTop = BorderLayout.center()//profilePicLabel);
 //        sidemenuTop.setUIID("SidemenuTop");
-
 //        getToolbar().addComponentToSideMenu(sidemenuTop);
         getToolbar().addMaterialCommandToSideMenu(" Dashboard ", FontImage.MATERIAL_DASHBOARD, e -> showOtherForm(res));
-       getToolbar().addMaterialCommandToSideMenu(" Profile ", FontImage.MATERIAL_LIST, e -> {
+        getToolbar().addMaterialCommandToSideMenu(" Profile ", FontImage.MATERIAL_LIST, e -> {
             Statics.current_choice = 1;
             new ProfileForm(res).show();
         });
@@ -87,7 +85,7 @@ public abstract class SideMenuBaseForm extends Form {
                 new ListReservationsForm(res).show();
             });
         }
-        getToolbar().addMaterialCommandToSideMenu(" Paramétres ", FontImage.MATERIAL_SETTINGS, e -> showOtherForm(res));       
+        getToolbar().addMaterialCommandToSideMenu(" Paramétres ", FontImage.MATERIAL_SETTINGS, e -> showOtherForm(res));
 //        getToolbar().addMaterialCommandToSideMenu(" Logout", FontImage.MATERIAL_EXIT_TO_APP, e -> new SignInForm(res).show());
     }
 

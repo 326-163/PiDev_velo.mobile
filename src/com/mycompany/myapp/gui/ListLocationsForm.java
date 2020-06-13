@@ -33,7 +33,7 @@ public class ListLocationsForm extends SideMenuBaseForm {
     private EncodedImage palceHolder;
 
     public ListLocationsForm(Resources res) {
-       super(new BorderLayout());
+        super(new BorderLayout());
         Toolbar tb = getToolbar();
         tb.setTitleCentered(false);
         Image profilePic = res.getImage("velo.jpg");
@@ -43,7 +43,6 @@ public class ListLocationsForm extends SideMenuBaseForm {
 //        g.drawImage(res.getImage("gradient-overlay.png"), 0, 0, profilePic.getWidth(), profilePic.getHeight());
 
 //        tb.getUnselectedStyle().setBgImage(tintedImage);
-
         Button menuButton = new Button("");
         menuButton.setUIID("Title");
         FontImage.setMaterialIcon(menuButton, FontImage.MATERIAL_MENU);
@@ -144,12 +143,10 @@ public class ListLocationsForm extends SideMenuBaseForm {
         con4.add(BoxLayout.encloseXRight(tRech, rechButton));
 
         add(BorderLayout.NORTH, con5);
-        
-        
-         //begin
-       
 
+        //begin
     }
+
     //end
     @Override
     protected void showOtherForm(Resources res) {

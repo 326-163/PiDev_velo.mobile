@@ -99,40 +99,35 @@ public class AfficherLocation extends SideMenuBaseForm {
         Label lPrix = new Label("Prix: " + l.getPrix());
         Format dateFormat = new SimpleDateFormat("dd/MM/yyyy");
         String ress = dateFormat.format(l.getDateCreation());
-        Button bModif=new Button("Modifier");
-        Button bSupp=new Button("Supprimer");
-        Container cb=new Container(BoxLayout.x());
-        cb.addAll(bModif,bSupp);
+        Button bModif = new Button("Modifier");
+        Button bSupp = new Button("Supprimer");
+        Container cb = new Container(BoxLayout.x());
+        cb.addAll(bModif, bSupp);
         cb.setVisible(false);
-        
-         if(Statics.current_user.getRoles().contains("ADMIN") || Statics.current_user.getId() == l.getId()){
+
+        if (Statics.current_user.getRoles().contains("ADMIN") || Statics.current_user.getId() == l.getId()) {
             cb.setVisible(true);
         }
-        bModif.addActionListener(e->{
-           UpdateLocationForm updateLocationForm=new UpdateLocationForm(res,l);
-//            Form modifierAnnonceForm=modifierAnnonce.getModifierAnnonceForm();
+        bModif.addActionListener(e -> {
+            UpdateLocationForm updateLocationForm = new UpdateLocationForm(res, l);
+
             updateLocationForm.show();
-            
-//        Form mod=modifier(a);
-//        mod.show();
+
         });
-        bSupp.addActionListener(e1->{
-              if(Dialog.show("voulez vous supprimer cette location", "", "Supprimer", "Annuler")){
-//                db.execute("delete from annonce where id="+a.getId()+"");
-//                    AnnonceService as=new AnnonceService();
+        bSupp.addActionListener(e1 -> {
+            if (Dialog.show("voulez vous supprimer cette location", "", "Supprimer", "Annuler")) {
                 ServiceLocation.getInstance().DeleteLocation(l.getId());
                 System.out.println("Publication supprimée avec succès !");
-                ListLocationsForm  listLocationsForm =new ListLocationsForm (res);
-//                 Form listeAnnoncesForm = listeAnnonces.getListeAnnoncesForm();
-                 listLocationsForm .show();
-                }
-                             
-        });
-                PickerComponent signallPicker = PickerComponent.createStrings("Contenu indésirable","Harcèlement","Discours haineux","Nudité","Violence","Autre").label("Cause");
+                ListLocationsForm listLocationsForm = new ListLocationsForm(res);
 
-           setupSideMenu(res);
-            
-        
+                listLocationsForm.show();
+            }
+
+        });
+        PickerComponent signallPicker = PickerComponent.createStrings("Contenu indésirable", "Harcèlement", "Discours haineux", "Nudité", "Violence", "Autre").label("Cause");
+
+        setupSideMenu(res);
+
     }
 
     @Override

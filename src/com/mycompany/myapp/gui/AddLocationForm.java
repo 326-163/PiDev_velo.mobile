@@ -5,7 +5,6 @@
  * and open the template in the editor.
  */
 package com.mycompany.myapp.gui;
-//import org.apache.commons.text.RandomStringGenerator;
 
 import com.codename1.capture.Capture;
 import com.codename1.charts.util.ColorUtil;
@@ -144,15 +143,14 @@ public class AddLocationForm extends SideMenuBaseForm {
         System.out.println("date md formated : " + datesmd);
         PickerComponent tdateCreation = PickerComponent.createDate(datemd).label("Date creation");
 
-         Label lActive = new Label("Active");
+        Label lActive = new Label("Active");
         OnOffSwitch tActive = new OnOffSwitch();
-        
-        
+
         Button Valider = new Button("Publier location");
         FontImage.setMaterialIcon(Valider, FontImage.MATERIAL_ADD, 5);
         Container cont = new Container(BoxLayout.y());
 
-        cont.addAll(lTitre, tTitre, lPrix, tPrix, lLieu, tLieu, ldateCreation, tdateCreation, lPhoto, upload ,lActive, tActive, Valider);
+        cont.addAll(lTitre, tTitre, lPrix, tPrix, lLieu, tLieu, ldateCreation, tdateCreation, lPhoto, upload, lActive, tActive, Valider);
         add(BorderLayout.CENTER, cont);
         Valider.addActionListener(e1 -> {
 
@@ -166,14 +164,13 @@ public class AddLocationForm extends SideMenuBaseForm {
             l.setLieu(tLieu.getPicker().getSelectedString());
             l.setDateCreation(date5);
 
-              l.setId(Statics.current_user.getId());
-            if (tActive.isValue()) {
-                l.setActive(true);
-            } else {
-                l.setActive(false);
-            }
-            
-         
+//            l.setId(Statics.current_user.getId());
+//            if (tActive.isValue()) {
+//                l.setActive(true);
+//            } else {
+//                l.setActive(false);
+//            }
+
             System.out.println(l);
             if (verifierChamps(l, tPrix.getText())) {
                 l.setPrix((int) Integer.parseInt(tPrix.getText()));
@@ -222,10 +219,10 @@ public class AddLocationForm extends SideMenuBaseForm {
             return false;
         }
 
-        if (fileNameInServer.equals("")) {
-            Dialog.show("Error", "Veuillez choisir une photo", "OK", null);
-            return false;
-        }
+//        if (fileNameInServer.equals("")) {
+//            Dialog.show("Error", "Veuillez choisir une photo", "OK", null);
+//            return false;
+//        }
 
         return true;
     }

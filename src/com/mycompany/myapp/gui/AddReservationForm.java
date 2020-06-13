@@ -130,8 +130,6 @@ public class AddReservationForm extends SideMenuBaseForm {
             r.setDateFin(date5);
 
             System.out.println(r);
-            //    if (verifierChamps(r, tPrix.getText())) {
-            //     r.setPrix((int) Integer.parseInt(tPrix.getText()));
 
             ServiceReservation.getInstance().addReservation(r);
             System.out.println("Reservation ajoutée avec succès");
@@ -141,7 +139,7 @@ public class AddReservationForm extends SideMenuBaseForm {
             // }           
 
         });
-        //#####end
+        //end
 
 //        setupSideMenu(res);
     }

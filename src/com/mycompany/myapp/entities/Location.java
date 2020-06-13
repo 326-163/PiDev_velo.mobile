@@ -20,12 +20,12 @@ public class Location {
     private String photo;
     private int rating;
     private Date dateCreation;
-    private boolean active;
+//    private boolean active;
 
     public Location() {
     }
 
-    public Location(int id, String titre, String lieu, float prix, String photo, int rating, Date dateCreation, boolean active) {
+    public Location(int id, String titre, String lieu, float prix, String photo, int rating, Date dateCreation) {
         this.id = id;
         this.titre = titre;
         this.lieu = lieu;
@@ -33,16 +33,16 @@ public class Location {
         this.photo = photo;
         this.rating = rating;
         this.dateCreation = dateCreation;
-        this.active = active;
+        
     }
 
-    public Location(String titre, String lieu, float prix, String photo, Date dateCreation, boolean active) {
+    public Location(String titre, String lieu, float prix, String photo, Date dateCreation) {
         this.titre = titre;
         this.lieu = lieu;
         this.prix = prix;
         this.photo = photo;
         this.dateCreation = dateCreation;
-        this.active = active;
+//// 
     }
 
     public int getId() {
@@ -101,17 +101,7 @@ public class Location {
         this.dateCreation = dateCreation;
     }
 
-    public boolean isActive() {
-        return active;
-    }
 
-    public void setActive(boolean active) {
-        this.active = active;
-    }
 
-    @Override
-    public String toString() {
-        return "Location{" + "id=" + id + ", titre=" + titre + ", lieu=" + lieu + ", prix=" + prix + ", photo=" + photo + ", rating=" + rating + ", dateCreation=" + dateCreation + ", active=" + active + '}';
-    }
-
+  
 }

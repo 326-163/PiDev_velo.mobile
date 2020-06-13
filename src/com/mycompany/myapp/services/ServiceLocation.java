@@ -12,9 +12,9 @@ import com.codename1.io.NetworkEvent;
 import com.codename1.io.NetworkManager;
 import com.codename1.l10n.ParseException;
 import com.codename1.l10n.SimpleDateFormat;
-import com.codename1.notifications.LocalNotification;
-import com.codename1.ui.Display;
+import com.codename1.ui.Dialog;
 import com.codename1.ui.events.ActionListener;
+import com.codename1.ui.util.Resources;
 import com.mycompany.myapp.entities.Location;
 import com.mycompany.myapp.utils.Statics;
 import java.io.IOException;
@@ -77,7 +77,7 @@ public class ServiceLocation {
                 l.setTitre(obj.get("titre").toString());
                 l.setLieu(obj.get("lieu").toString());
                 l.setPrix(Float.parseFloat(obj.get("prix").toString()));
-                //yser   l.setIdU((int) Float.parseFloat(obj.get("idU").toString()));
+                // l.setIdU((int) Float.parseFloat(obj.get("idU").toString()));
                 listLocations.add(l);
             }
 
@@ -204,11 +204,12 @@ public class ServiceLocation {
     }
 
     public boolean addLocation(Location l) {
-        String url = Statics.BASE_URL + "/api/location/new"
+        String url = Statics.BASE_URL + "/api/location/new/"
+                + l.getId()
                 + l.getTitre()
                 + "/" + l.getLieu()
                 + "/" + l.getPrix()
-                + "/" + l.getPhoto()
+                //                + "/" + l.getPhoto()
                 + "/" + l.getDateCreation();//création de l'URL
         req.setUrl(url);// Insertion de l'URL de notre demande de connexion
         req.addResponseListener(new ActionListener<NetworkEvent>() {
@@ -228,7 +229,7 @@ public class ServiceLocation {
         return resultOK;
     }
 
-    public void updateLocation(Location l) {
+    public void updateLocation(Location l, Resources res) {
         req.removeAllArguments();
         req.setPost(true);
         req.setUrl(Statics.BASE_URL + " /api/location/update/");
@@ -237,7 +238,7 @@ public class ServiceLocation {
         req.addArgument("titre", String.valueOf(l.getTitre()));
         req.addArgument("lieu", String.valueOf(l.getLieu()));
         req.addArgument("prix", String.valueOf(l.getPrix()));
-        req.addArgument("photo", l.getPhoto());
+//        req.addArgument("photo", l.getPhoto());
         req.addArgument("date creation", new SimpleDateFormat("dd-MM-yyyy").format(l.getDateCreation()));
 
         req.addArgument("id", String.valueOf(l.getId()));
@@ -245,6 +246,7 @@ public class ServiceLocation {
             @Override
             public void actionPerformed(NetworkEvent evt) {
                 System.out.println("http response: " + req.getResponseCode());
+                Dialog.show("Succés", "Publication modifié", "ok", null);
                 req.removeResponseListener(this);
             }
         });
@@ -272,8 +274,10 @@ public class ServiceLocation {
         String url = "/api/location/delete?id=" + id;
         System.err.println(url);
         req.setUrl(url);
+
         req.addResponseListener((e) -> {
             String str = new String(req.getResponseData());
+            Dialog.show("Succés", "Publication Supprimer", "ok", null);
             System.out.println(str);
 
         });

@@ -153,7 +153,7 @@ public class UpdateLocationForm extends SideMenuBaseForm {
         Container cont = new Container(BoxLayout.y());
         cont.addAll(lTitre, tTitre, lPrix, tPrix, lLieu, tLieu, ldateCreation, tdateCreation, lPhoto, upload, bModifier);
         add(BorderLayout.CENTER, cont);
-        
+
         bModifier.addActionListener(e1 -> {
             Date date5 = new Date();
             date5 = (Date) tdateCreation.getPicker().getValue();
@@ -175,38 +175,36 @@ public class UpdateLocationForm extends SideMenuBaseForm {
             }
 
         });
-        //#####end
+        //end
 
         setupSideMenu(res);
 
     }
-   public boolean verifierChamps(Location l,String prix){
+
+    public boolean verifierChamps(Location l, String prix) {
         int p;
-         if(l.getTitre().equals("")){
-                Dialog.show("Error", "Veuillez remplir le champ par un titre","OK",null);
-                return false;
-            }
-         if(prix.equals("")){
-                Dialog.show("Error", "Veuillez écrire un prix","OK",null);
-                return false;
-            }
-         try
-        {
-          p=Integer.parseInt(prix);
-        }
-        catch(NumberFormatException ex)
-        {
-            Dialog.show("Error", "Le prix doit contenir que des caractères numériques!","OK",null);
+        if (l.getTitre().equals("")) {
+            Dialog.show("Error", "Veuillez remplir le champ par un titre", "OK", null);
             return false;
         }
-         if(p <= 0 ){
-                Dialog.show("Error", "Veuillez écrire un prix supérieur à 0","OK",null);
-                return false;
-            }
+        if (prix.equals("")) {
+            Dialog.show("Error", "Veuillez écrire un prix", "OK", null);
+            return false;
+        }
+        try {
+            p = Integer.parseInt(prix);
+        } catch (NumberFormatException ex) {
+            Dialog.show("Error", "Le prix doit contenir que des caractères numériques!", "OK", null);
+            return false;
+        }
+        if (p <= 0) {
+            Dialog.show("Error", "Veuillez écrire un prix supérieur à 0", "OK", null);
+            return false;
+        }
 
         return true;
     }
-    
+
     @Override
     protected void showOtherForm(Resources res) {
         new ProfileForm(res).show();

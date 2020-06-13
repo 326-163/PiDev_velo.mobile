@@ -25,8 +25,6 @@ import com.codename1.ui.layouts.LayeredLayout;
 import com.codename1.ui.plaf.Style;
 import com.codename1.ui.util.Resources;
 
-
-
 /**
  *
  * @author nahawnd
@@ -34,7 +32,7 @@ import com.codename1.ui.util.Resources;
 public class HomeForm extends SideMenuBaseForm {
 
     Form home;
-     private EncodedImage palceHolder;
+    private EncodedImage palceHolder;
 
     public HomeForm(Resources theme) {
         home = this;
@@ -100,9 +98,6 @@ public class HomeForm extends SideMenuBaseForm {
         home.add(contpanier);
         home.add(contorder);
         home.show();*/
-        
-        
-        
         Button btnAddLocation = new Button("Louer");
         Button btnListLocations = new Button("Consulter liste locations");
         Button btnChercherLocation = new Button("Chercher location");
@@ -116,29 +111,25 @@ public class HomeForm extends SideMenuBaseForm {
 
         btnAddReservation.addActionListener(e -> new AddReservationForm(theme).show());
         btnListReservations.addActionListener(e -> new ListReservationsForm(theme).show());
-   
-        
+
         addAll(btnAddLocation, btnListLocations, btnAddReservation, btnListReservations);
-        
-        
-          ButtonGroup bg = new ButtonGroup();
-       
+
+        ButtonGroup bg = new ButtonGroup();
+
         Container radioContainer = new Container();
-       
-        
-        
- Button skip = new Button("Suivant");
+
+        Button skip = new Button("Suivant");
         skip.setUIID("SkipButton");
         skip.addActionListener(e -> new ProfileForm(theme).show());
-        
+
         Container southLayout = BoxLayout.encloseY(
-                        radioContainer,
-                        skip
-                );
+                radioContainer,
+                skip
+        );
         add(BorderLayout.south(
                 southLayout
         ));
-       
+
 //        F1.getToolbar().
 //        addCommandToLeftSideMenu("Profil",null, ev->{F2.show();});
 //        
@@ -149,7 +140,8 @@ public class HomeForm extends SideMenuBaseForm {
 //        Display.getInstance().exitApplication();
 //        });
     }
-  @Override
+
+    @Override
     protected void showOtherForm(Resources res) {
         new ProfileForm(res).show();
     }

@@ -151,7 +151,7 @@ public class ListReservationsForm extends SideMenuBaseForm {
 
         add(BorderLayout.NORTH, con5);
 
-        //#####begin
+        //begin
         if (!ServiceReservation.getInstance().getReservations().isEmpty()) {
             Container con3 = new Container(BoxLayout.y());
 
@@ -174,12 +174,9 @@ public class ListReservationsForm extends SideMenuBaseForm {
 //                    Annonce a1=new Annonce();
                     Statics.current_reservation = r;
                     System.out.println("testtt");
-                    AfficherReservation afficherReservation = new AfficherReservation(res, r);
-
-//                  Form afficherAnnonceForm=afficherAnnonce.getAffichertAnnonceForm();
+                    AfficherReservation afficherReservation = new AfficherReservation(res, r);;
                     afficherReservation.show();
-//                    Form fa=afficher(a);
-//                    fa.show();
+
                 });
 
                 System.out.println("Reservation= id: " + id + " Titre: " + titre + "Date debut: " + dateDeb + " Date fin : " + dateFin);

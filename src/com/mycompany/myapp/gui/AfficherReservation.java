@@ -5,7 +5,6 @@
  */
 package com.mycompany.myapp.gui;
 
-import com.codename1.components.ImageViewer;
 import com.codename1.l10n.Format;
 import com.codename1.l10n.SimpleDateFormat;
 import com.codename1.ui.Button;
@@ -18,15 +17,13 @@ import com.codename1.ui.Image;
 import com.codename1.ui.Label;
 import com.codename1.ui.PickerComponent;
 import com.codename1.ui.Toolbar;
-import com.codename1.ui.URLImage;
 import com.codename1.ui.layouts.BorderLayout;
 import com.codename1.ui.layouts.BoxLayout;
 import com.codename1.ui.layouts.FlowLayout;
 import com.codename1.ui.util.Resources;
 import com.mycompany.myapp.entities.Reservation;
-import com.mycompany.myapp.services.ServiceLocation;
+import com.mycompany.myapp.services.ServiceReservation;
 import com.mycompany.myapp.utils.Statics;
-import java.io.IOException;
 
 /**
  *
@@ -83,40 +80,36 @@ public class AfficherReservation extends SideMenuBaseForm {
         Format dateFormat = new SimpleDateFormat("dd/MM/yyyy");
         String ress = dateFormat.format(r.getDateDeb());
         String ress1 = dateFormat.format(r.getDateFin());
-        Label ldateDeb=new Label("Date debut: "+ress);
-        Label ldateFin=new Label("Date fin: "+ress1);
-        Button bModif=new Button("Modifier");
-        Button bSupp=new Button("Supprimer");
-        Container cb=new Container(BoxLayout.x());
-        cb.addAll(bModif,bSupp);
+        Label ldateDeb = new Label("Date debut: " + ress);
+        Label ldateFin = new Label("Date fin: " + ress1);
+        Button bModif = new Button("Modifier");
+        Button bSupp = new Button("Supprimer");
+        Container cb = new Container(BoxLayout.x());
+        cb.addAll(bModif, bSupp);
         cb.setVisible(false);
- 
-          if(Statics.current_user.getRoles().contains("ADMIN") || Statics.current_user.getId() == r.getId()){
+
+        if (Statics.current_user.getRoles().contains("ADMIN") || Statics.current_user.getId() == r.getId()) {
             cb.setVisible(true);
         }
-        bModif.addActionListener(e->{
-           UpdateReservationForm updateReservationForm=new UpdateReservationForm(res,r);
-//            Form modifierAnnonceForm=modifierAnnonce.getModifierAnnonceForm();
-            updateReservationForm.show();
-            
-//        Form mod=modifier(a);
-//        mod.show();
-        });
-        bSupp.addActionListener(e1->{
-              if(Dialog.show("voulez vous supprimer cette reservation", "", "Supprimer", "Annuler")){
-//                db.execute("delete from annonce where id="+a.getId()+"");
-//                    AnnonceService as=new AnnonceService();
-                ServiceLocation.getInstance().DeleteLocation(r.getId());
-                System.out.println("Reservation supprimée avec succès !");
-                ListLocationsForm  listLocationsForm =new ListLocationsForm (res);
-//                 Form listeAnnoncesForm = listeAnnonces.getListeAnnoncesForm();
-                 listLocationsForm .show();
-                }
-                             
-        });
-                PickerComponent signallPicker = PickerComponent.createStrings("Contenu indésirable","Harcèlement","Discours haineux","Nudité","Violence","Autre").label("Cause");
+        bModif.addActionListener(e -> {
+            UpdateReservationForm updateReservationForm = new UpdateReservationForm(res, r);
 
-          setupSideMenu(res); 
+            updateReservationForm.show();
+
+        });
+        bSupp.addActionListener(e1 -> {
+            if (Dialog.show("voulez vous supprimer cette reservation", "", "Supprimer", "Annuler")) {
+
+                ServiceReservation.getInstance().DeleteReservation(r.getId());
+                System.out.println("Reservation supprimée avec succès !");
+                ListLocationsForm listLocationsForm = new ListLocationsForm(res);
+                listLocationsForm.show();
+            }
+
+        });
+        PickerComponent signallPicker = PickerComponent.createStrings("Contenu indésirable", "Harcèlement", "Discours haineux", "Nudité", "Violence", "Autre").label("Cause");
+
+        setupSideMenu(res);
     }
 
     @Override

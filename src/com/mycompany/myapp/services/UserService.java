@@ -27,11 +27,9 @@ public class UserService {
 
     public static UserService instance;
     private ConnectionRequest req;
-    
-      
-     public ArrayList<User> users;
-    public boolean resultOK;
 
+    public ArrayList<User> users;
+    public boolean resultOK;
 
     public UserService() {
         req = new ConnectionRequest();
@@ -101,8 +99,8 @@ public class UserService {
         return u;
     }
 
-      public void Login(String username, String password) {
-       req.setPost(true);
+    public void Login(String username, String password) {
+        req.setPost(true);
         req.setUrl(Statics.BASE_URL + "/login");
         req.addArgument("username", username);
         req.addArgument("password", password);

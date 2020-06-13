@@ -83,30 +83,29 @@ public class ServiceReservation {
 
     }
 
-  ArrayList<Reservation> listReservations = new ArrayList<>();
-   
+    ArrayList<Reservation> listReservations = new ArrayList<>();
+
     public ArrayList<Reservation> getReservations() {
-  req.removeAllArguments();
-         req.setPost(false);
+        req.removeAllArguments();
+        req.setPost(false);
         req.removeAllArguments();
 
- if (Statics.current_choice == 1) {
-            req.setUrl(Statics.BASE_URL+"/api/reservations/all");
+        if (Statics.current_choice == 1) {
+            req.setUrl(Statics.BASE_URL + "/api/reservations/all");
 //            req.addArgument("user", String.valueOf(Statics.current_user.getId()));
-        }
-//        else  if (Statics.current_choice == 2) {
-//                req.setUrl(Statics.BASE_URL+"/api/mobile/reservation/mesreservations/");
-//                req.addArgument("user", String.valueOf(Statics.current_user.getId()));
-//            } 
+        } //        else  if (Statics.current_choice == 2) {
+        //                req.setUrl(Statics.BASE_URL+"/api/mobile/reservation/mesreservations/");
+        //                req.addArgument("user", String.valueOf(Statics.current_user.getId()));
+        //            } 
         else if (Statics.current_choice == 2) {
-                    req.setUrl(Statics.BASE_URL+"/api/reservation/recherche");
-                    req.addArgument("recherche", String.valueOf(Statics.current_search));
-                } 
+            req.setUrl(Statics.BASE_URL + "/api/reservation/recherche");
+            req.addArgument("recherche", String.valueOf(Statics.current_search));
+        }
 
         req.addResponseListener(new ActionListener<NetworkEvent>() {
             @Override
             public void actionPerformed(NetworkEvent evt) {
-             ServiceReservation ds = new ServiceReservation();
+                ServiceReservation ds = new ServiceReservation();
                 listReservations = ds.getAllReservations(new String(req.getResponseData()));
                 req.removeResponseListener(this);
             }
@@ -144,19 +143,16 @@ public class ServiceReservation {
         });
         NetworkManager.getInstance().addToQueueAndWait(req);
 
-        
-        
         LocalNotification n = new LocalNotification();
         n.setId("demo-notification");
         n.setAlertBody("Your reservation has been accepted");
         n.setAlertTitle("Reservation acceptée!");
         n.setAlertSound("/notification_sound_bells.mp3"); //file name must begin with notification_sound
 
-
         Display.getInstance().scheduleLocalNotification(
                 n,
                 System.currentTimeMillis() + 10 * 1000, // fire date/time
-                LocalNotification.REPEAT_MINUTE  // Whether to repeat and what frequency
+                LocalNotification.REPEAT_MINUTE // Whether to repeat and what frequency
         );
     }
 
@@ -197,14 +193,11 @@ public class ServiceReservation {
 
         }
         return reservations;*/
-    
-    
     public void updateReservation(Reservation r) {
 //        ConnectionRequest con = new ConnectionRequest();
 
         String url = "http://127.0.0.1:8000/api/reservation/update"
-                
-                + r.getId() 
+                + r.getId()
                 + "/" + r.getDateDeb()
                 + "/" + r.getDateFin();
         System.err.println(url);
@@ -217,7 +210,6 @@ public class ServiceReservation {
         NetworkManager.getInstance().addToQueueAndWait(req); //appel asynchrone
     }
 
-    
     public void DeleteReservation(int id) {
         ConnectionRequest con = new ConnectionRequest();
 
