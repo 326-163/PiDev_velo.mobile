@@ -6,10 +6,7 @@
 package com.mycompany.myapp.gui;
 
 import com.codename1.charts.util.ColorUtil;
-import com.codename1.components.ImageViewer;
 import com.codename1.components.InteractionDialog;
-import com.codename1.l10n.Format;
-import com.codename1.l10n.SimpleDateFormat;
 import com.codename1.ui.Button;
 import com.codename1.ui.Container;
 import com.codename1.ui.EncodedImage;
@@ -20,15 +17,14 @@ import com.codename1.ui.Label;
 import com.codename1.ui.PickerComponent;
 import com.codename1.ui.TextField;
 import com.codename1.ui.Toolbar;
+import com.codename1.ui.events.ActionEvent;
+import com.codename1.ui.events.ActionListener;
 import com.codename1.ui.geom.Dimension;
 import com.codename1.ui.layouts.BorderLayout;
 import com.codename1.ui.layouts.BoxLayout;
 import com.codename1.ui.layouts.FlowLayout;
 import com.codename1.ui.util.Resources;
-import com.mycompany.myapp.entities.Reservation;
-import com.mycompany.myapp.services.ServiceReservation;
 import com.mycompany.myapp.utils.Statics;
-import java.io.IOException;
 
 /**
  *
@@ -52,8 +48,21 @@ public class ListReservationsForm extends SideMenuBaseForm {
 
         Button menuButton = new Button("");
         menuButton.setUIID("Title");
-        FontImage.setMaterialIcon(menuButton, FontImage.MATERIAL_MENU);
-        menuButton.addActionListener(e -> getToolbar().openSideMenu());
+//        FontImage.setMaterialIcon(menuButton, FontImage.MATERIAL_MENU);
+//        menuButton.addActionListener(e -> getToolbar().openSideMenu());
+
+       getToolbar().addMaterialCommandToLeftSideMenu("menuButton", FontImage.MATERIAL_MENU, new ActionListener() {
+
+            @Override
+            public void actionPerformed(ActionEvent evt) {
+
+            }
+        });
+
+        getToolbar().addMaterialCommandToLeftSideMenu("Profile", FontImage.MATERIAL_SHOPPING_CART, ev -> new ProfileForm(res).show());
+        getToolbar().addMaterialCommandToLeftSideMenu("Louer", FontImage.MATERIAL_ADD_CIRCLE, ev -> new AddLocationForm(res).show());
+        getToolbar().addMaterialCommandToLeftSideMenu("Locations", FontImage.MATERIAL_STORE, ev -> new ListLocationsForm(res).show());
+        getToolbar().addMaterialCommandToLeftSideMenu("Reserver", FontImage.MATERIAL_STORE, ev -> new AddReservationForm(res).show());
 
         Button settingsButton = new Button("");
         settingsButton.setUIID("Title");
@@ -152,61 +161,61 @@ public class ListReservationsForm extends SideMenuBaseForm {
         add(BorderLayout.NORTH, con5);
 
         //begin
-        if (!ServiceReservation.getInstance().getReservations().isEmpty()) {
-            Container con3 = new Container(BoxLayout.y());
-
-            for (Reservation r : ServiceReservation.getInstance().getReservations()) {
-
-                int id = r.getId();
-                String titre = r.getTitre();
-                String dateDeb = r.getDateDeb().toString();
-                String dateFin = r.getDateFin().toString();
-
-                Label lTitre = new Label("Titre: " + titre);
-                Format dateFormat = new SimpleDateFormat("dd/MM/yyyy");
-                String ress = dateFormat.format(r.getDateDeb());
-                String ress1 = dateFormat.format(r.getDateFin());
-                Label ldateDeb = new Label("Date debut : " + ress);
-                Label ldateFin = new Label("Date fin : " + ress);
-
-                Button bAfficher = new Button("Afficher");
-                bAfficher.addActionListener(e -> {
-//                    Annonce a1=new Annonce();
-                    Statics.current_reservation = r;
-                    System.out.println("testtt");
-                    AfficherReservation afficherReservation = new AfficherReservation(res, r);;
-                    afficherReservation.show();
-
-                });
-
-                System.out.println("Reservation= id: " + id + " Titre: " + titre + "Date debut: " + dateDeb + " Date fin : " + dateFin);
-                Container con = new Container(BoxLayout.x());
-                Container con1 = new Container(BoxLayout.y());
-                ImageViewer imgv = new ImageViewer();
-
-                try {
-                    palceHolder = EncodedImage.create("/giphy.gif");
-                } catch (IOException ex) {
-
-                }
-
-                con1.addAll(lTitre, ldateDeb, ldateFin);
-                con.addAll(imgv, con1);
-
-                con3.addAll(con, bAfficher);
-            }
-            con3.setScrollableY(true);
-            System.out.println("sroll : " + con3.isScrollableY());
-            add(BorderLayout.CENTER, con3);
-
-        } else {
-            Container cont = new Container(BoxLayout.y());
-            cont.add(BoxLayout.encloseXCenter(new Label("Aucune Reservation à afficher")));
-            add(BorderLayout.CENTER, cont);
-
-        }
-
-        setupSideMenu(res);
+//        if (!ServiceReservation.getInstance().getReservations().isEmpty()) {
+//            Container con3 = new Container(BoxLayout.y());
+//
+//            for (Reservation r : ServiceReservation.getInstance().getReservations()) {
+//
+//                int id = r.getId();
+//                String titre = r.getTitre();
+//                String dateDeb = r.getDateDeb().toString();
+//                String dateFin = r.getDateFin().toString();
+//
+//                Label lTitre = new Label("Titre: " + titre);
+//                Format dateFormat = new SimpleDateFormat("dd/MM/yyyy");
+//                String ress = dateFormat.format(r.getDateDeb());
+//                String ress1 = dateFormat.format(r.getDateFin());
+//                Label ldateDeb = new Label("Date debut : " + ress);
+//                Label ldateFin = new Label("Date fin : " + ress);
+//
+//                Button bAfficher = new Button("Afficher");
+//                bAfficher.addActionListener(e -> {
+////                    Annonce a1=new Annonce();
+//                    Statics.current_reservation = r;
+//                    System.out.println("testtt");
+//                    AfficherReservation afficherReservation = new AfficherReservation(res, r);;
+//                    afficherReservation.show();
+//
+//                });
+//
+//                System.out.println("Reservation= id: " + id + " Titre: " + titre + "Date debut: " + dateDeb + " Date fin : " + dateFin);
+//                Container con = new Container(BoxLayout.x());
+//                Container con1 = new Container(BoxLayout.y());
+//                ImageViewer imgv = new ImageViewer();
+//
+//                try {
+//                    palceHolder = EncodedImage.create("/giphy.gif");
+//                } catch (IOException ex) {
+//
+//                }
+//
+//                con1.addAll(lTitre, ldateDeb, ldateFin);
+//                con.addAll(imgv, con1);
+//
+//                con3.addAll(con, bAfficher);
+//            }
+//            con3.setScrollableY(true);
+//            System.out.println("sroll : " + con3.isScrollableY());
+//            add(BorderLayout.CENTER, con3);
+//
+//        } else {
+//            Container cont = new Container(BoxLayout.y());
+//            cont.add(BoxLayout.encloseXCenter(new Label("Aucune Reservation à afficher")));
+//            add(BorderLayout.CENTER, cont);
+//
+//        }
+//end
+//        setupSideMenu(res);
     }
 
     @Override
@@ -214,10 +223,4 @@ public class ListReservationsForm extends SideMenuBaseForm {
         new ProfileForm(res).show();
     }
 
-    /*   setTitle("List reservations");
-        
-         SpanLabel sp = new SpanLabel();
-        sp.setText(ServiceReservation.getInstance().getAllReservations().toString());
-        add(sp);
- getToolbar().addMaterialCommandToLeftBar("back", FontImage.MATERIAL_ARROW_BACK, e-> new HomeForm(res).showBack());*/
 }

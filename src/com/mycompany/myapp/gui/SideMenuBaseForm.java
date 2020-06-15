@@ -50,12 +50,12 @@ public abstract class SideMenuBaseForm extends Form {
         Image mask = res.getImage("round-mask.png");
 //        mask = mask.scaledHeight(mask.getHeight() / 4 * 3);
 
-//        profilePic = profilePic.fill(mask.getWidth(), mask.getHeight());
-//        Label profilePicLabel = new Label("  " + Statics.current_user.getNom() + " " + Statics.current_user.getPrenom(), "SideMenuTitle");
-//        profilePicLabel.setMask(mask.createMask());
-//        Container sidemenuTop = BorderLayout.center()//profilePicLabel);
-//        sidemenuTop.setUIID("SidemenuTop");
-//        getToolbar().addComponentToSideMenu(sidemenuTop);
+        profilePic = profilePic.fill(mask.getWidth(), mask.getHeight());
+        Label profilePicLabel = new Label("  " + Statics.current_user.getUsername() , "SideMenuTitle");
+        profilePicLabel.setMask(mask.createMask());
+        Container sidemenuTop = BorderLayout.center(profilePicLabel);
+        sidemenuTop.setUIID("SidemenuTop");
+        getToolbar().addComponentToSideMenu(sidemenuTop);
         getToolbar().addMaterialCommandToSideMenu(" Dashboard ", FontImage.MATERIAL_DASHBOARD, e -> showOtherForm(res));
         getToolbar().addMaterialCommandToSideMenu(" Profile ", FontImage.MATERIAL_LIST, e -> {
             Statics.current_choice = 1;
@@ -68,7 +68,7 @@ public abstract class SideMenuBaseForm extends Form {
         });
         getToolbar().addMaterialCommandToSideMenu(" Mes Locations ", FontImage.MATERIAL_LIST, e -> {
             Statics.current_choice = 1;
-            new ListLocationsForm(res).show();
+//            new ListLocationsForm(res).show();
         });
         getToolbar().addMaterialCommandToSideMenu(" Liste Reservation ", FontImage.MATERIAL_LIST, e -> {
             Statics.current_choice = 1;
@@ -78,7 +78,7 @@ public abstract class SideMenuBaseForm extends Form {
         if (Statics.current_user.getRoles().contains(" ADMIN ")) {
             getToolbar().addMaterialCommandToSideMenu(" Toutes les locations ", FontImage.MATERIAL_LIST, e -> {
                 Statics.current_choice = 8;
-                new ListLocationsForm(res).show();
+//                new ListLocationsForm(res).show();
             });
             getToolbar().addMaterialCommandToSideMenu(" Toutes les reservations ", FontImage.MATERIAL_LIST, e -> {
                 Statics.current_choice = 4;

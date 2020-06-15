@@ -21,11 +21,12 @@ public class Location {
     private int rating;
     private Date dateCreation;
 //    private boolean active;
+        private String username;
 
     public Location() {
     }
 
-    public Location(int id, String titre, String lieu, float prix, String photo, int rating, Date dateCreation) {
+    public Location(int id, String titre, String lieu, float prix, String photo, int rating, Date dateCreation,String username) {
         this.id = id;
         this.titre = titre;
         this.lieu = lieu;
@@ -33,16 +34,18 @@ public class Location {
         this.photo = photo;
         this.rating = rating;
         this.dateCreation = dateCreation;
+          this.username = username;
         
     }
 
-    public Location(String titre, String lieu, float prix, String photo, Date dateCreation) {
+    public Location(String titre, String lieu, float prix, String photo, Date dateCreation,String username) {
         this.titre = titre;
         this.lieu = lieu;
         this.prix = prix;
         this.photo = photo;
         this.dateCreation = dateCreation;
-//// 
+                  this.username = username;
+
     }
 
     public int getId() {
@@ -99,6 +102,14 @@ public class Location {
 
     public void setDateCreation(Date dateCreation) {
         this.dateCreation = dateCreation;
+    }
+
+    public String getUsername() {
+        return username;
+    }
+
+    public void setUsername(String username) {
+        this.username = username;
     }
 
 

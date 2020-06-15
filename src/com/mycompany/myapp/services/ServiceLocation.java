@@ -34,7 +34,7 @@ public class ServiceLocation {
     public boolean resultOK;
     private ConnectionRequest req;
 
-    private ServiceLocation() {
+    public ServiceLocation() {
         req = new ConnectionRequest();
     }
 
@@ -88,51 +88,6 @@ public class ServiceLocation {
 
     }
 
-    /* ArrayList<Location> listLocations = new ArrayList<>();
-
-    public ArrayList<Location> getLocations() {
-        req.removeAllArguments();
-        req.setPost(false);
-        req.removeAllArguments();
-
-        if (Statics.current_choice == 1) {
-            req.setUrl(Statics.BASE_URL + "/locations/all");
-//            con.addArgument("user", String.valueOf(Vars.current_user.getId()));
-
-        } else if (Statics.current_choice == 2) {
-            req.setUrl(Statics.BASE_URL + "/locations/all");
-            req.addArgument("user", String.valueOf(Statics.current_user.getId()));
-            
-        } else if (Statics.current_choice == 3) {
-            req.setUrl(Statics.BASE_URL + "/annonce/recherche/");
-            req.addArgument("recherche", String.valueOf(Statics.current_search));
-            
-        } else if (Statics.current_choice == 4) {
-            req.setUrl(Statics.BASE_URL + "/locations/all");
-            req.addArgument("choix", Statics.current_type);
-
-
-        } else if (Statics.current_choice == 5) {
-            req.setUrl(Statics.BASE_URL + "/locations/all");
-
-            
-        } else if (Statics.current_choice == 6) {
-            req.setUrl(Statics.BASE_URL + "/locations/all");
-//                       
-
-            req.addResponseListener(new ActionListener<NetworkEvent>() {
-                @Override
-                public void actionPerformed(NetworkEvent evt) {
-                    ServiceLocation ds = new ServiceLocation();
-                    listLocations = ds.getAllLocations(new String(req.getResponseData()));
-                    req.removeResponseListener(this);
-                }
-            });
-            NetworkManager.getInstance().addToQueueAndWait(req);
-            return listLocations;
-        }
-    }
-     */
     public ArrayList<Location> parseLocations(String jsonText) {
         try {
             locations = new ArrayList<>();
@@ -189,7 +144,7 @@ public class ServiceLocation {
     }
 
     public ArrayList<Location> getAllLocations() {
-        String url = Statics.BASE_URL + "/api/locations/all";
+        String url = Statics.BASE_URL + "/api/locations/all/";
         req.setUrl(url);
         req.setPost(false);
         req.addResponseListener(new ActionListener<NetworkEvent>() {
@@ -204,14 +159,24 @@ public class ServiceLocation {
     }
 
     public boolean addLocation(Location l) {
-        String url = Statics.BASE_URL + "/api/location/new/"
-                + l.getId()
-                + l.getTitre()
+        req.removeAllArguments();
+        req.setPost(true);
+
+        req.setUrl(Statics.BASE_URL + "/api/location/new"
+                + "/" + l.getTitre()
                 + "/" + l.getLieu()
                 + "/" + l.getPrix()
-                //                + "/" + l.getPhoto()
-                + "/" + l.getDateCreation();//création de l'URL
-        req.setUrl(url);// Insertion de l'URL de notre demande de connexion
+                + "/" + l.getPhoto()
+                + "/" + l.getDateCreation() //création de l'URL
+                + "/" + l.getUsername());
+        
+        req.addArgument("titre", String.valueOf(l.getTitre()));
+        req.addArgument("Lieu", String.valueOf(l.getLieu()));
+        req.addArgument("prix", String.valueOf(l.getPrix()));
+        req.addArgument("Photo", String.valueOf(l.getPhoto()));
+        req.addArgument("date creation", new SimpleDateFormat("dd-MM-yyyy").format(l.getDateCreation()));
+        req.addArgument("Username", String.valueOf(l.getUsername()));
+
         req.addResponseListener(new ActionListener<NetworkEvent>() {
             @Override
             public void actionPerformed(NetworkEvent evt) {
@@ -229,45 +194,36 @@ public class ServiceLocation {
         return resultOK;
     }
 
-    public void updateLocation(Location l, Resources res) {
+    public boolean updateLocation(Location l, Resources res) {
         req.removeAllArguments();
         req.setPost(true);
-        req.setUrl(Statics.BASE_URL + " /api/location/update/");
-//        con.addArgument("ens", String.valueOf(x));
+        
+        req.setUrl(Statics.BASE_URL + " /api/location/update");
         req.addArgument("id", String.valueOf(l.getId()));
         req.addArgument("titre", String.valueOf(l.getTitre()));
         req.addArgument("lieu", String.valueOf(l.getLieu()));
         req.addArgument("prix", String.valueOf(l.getPrix()));
-//        req.addArgument("photo", l.getPhoto());
+        req.addArgument("photo", l.getPhoto());
         req.addArgument("date creation", new SimpleDateFormat("dd-MM-yyyy").format(l.getDateCreation()));
 
-        req.addArgument("id", String.valueOf(l.getId()));
         req.addResponseListener(new ActionListener<NetworkEvent>() {
             @Override
             public void actionPerformed(NetworkEvent evt) {
-                System.out.println("http response: " + req.getResponseCode());
+              resultOK = req.getResponseCode() == 200; //Code HTTP 200 OK
                 Dialog.show("Succés", "Publication modifié", "ok", null);
-                req.removeResponseListener(this);
+                req.removeResponseListener(this); //Supprimer cet actionListener
+                /* une fois que nous avons terminé de l'utiliser.
+                La ConnectionRequest req est unique pour tous les appels de 
+                n'importe quelle méthode du Service task, donc si on ne supprime
+                pas l'ActionListener il sera enregistré et donc éxécuté même si 
+                la réponse reçue correspond à une autre URL(get par exemple)*/
+
             }
         });
-        NetworkManager.getInstance().addToQueueAndWait(req);
-        /*   ConnectionRequest con = new ConnectionRequest();
 
-        String url = "location/update"
-                + l.getId()
-                + "/" + l.getTitre()
-                + "/" + l.getLieu()
-                + "/" + l.getPrix()
-                + "/" + l.getPhoto()
-                + "/" + l.getDateCreation();
-        System.err.println(url);
-        con.setUrl(url);
-        con.addResponseListener((e) -> {
-            String str = new String(con.getResponseData());
-            System.out.println(str);
-            System.out.println("Location updated");
-        });
-        NetworkManager.getInstance().addToQueueAndWait(con); //appel asynchrone*/
+        NetworkManager.getInstance().addToQueueAndWait(req);//appel asynchrone
+          return resultOK;
+     
     }
 
     public void DeleteLocation(int id) {

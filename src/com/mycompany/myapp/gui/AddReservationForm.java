@@ -19,6 +19,8 @@ import com.codename1.ui.Label;
 import com.codename1.ui.PickerComponent;
 import com.codename1.ui.TextField;
 import com.codename1.ui.Toolbar;
+import com.codename1.ui.events.ActionEvent;
+import com.codename1.ui.events.ActionListener;
 import com.codename1.ui.layouts.BorderLayout;
 import com.codename1.ui.layouts.BoxLayout;
 import com.codename1.ui.layouts.FlowLayout;
@@ -27,6 +29,7 @@ import com.mycompany.myapp.entities.Reservation;
 import com.mycompany.myapp.services.ServiceReservation;
 import com.mycompany.myapp.utils.Statics;
 import com.mycompany.myapp.gui.SideMenuBaseForm;
+import com.mycompany.myapp.gui.HomeForm;
 import java.util.Date;
 
 /**
@@ -55,13 +58,26 @@ public class AddReservationForm extends SideMenuBaseForm {
 
         Button menuButton = new Button("");
         menuButton.setUIID("Title");
-        FontImage.setMaterialIcon(menuButton, FontImage.MATERIAL_MENU);
-        menuButton.addActionListener(e -> getToolbar().openSideMenu());
+//        FontImage.setMaterialIcon(menuButton, FontImage.MATERIAL_MENU);
+//        menuButton.addActionListener(e -> getToolbar().openSideMenu());
 
+ getToolbar().addMaterialCommandToLeftSideMenu("menuButton", FontImage.MATERIAL_MENU, new ActionListener() {
+
+            @Override
+            public void actionPerformed(ActionEvent evt) {
+
+            }
+        });
+
+        getToolbar().addMaterialCommandToLeftSideMenu("Profile", FontImage.MATERIAL_SHOPPING_CART, ev -> new ProfileForm(res).show());
+        getToolbar().addMaterialCommandToLeftSideMenu("Louer", FontImage.MATERIAL_ADD_CIRCLE, ev -> new AddLocationForm(res).show());
+        getToolbar().addMaterialCommandToLeftSideMenu("Locations", FontImage.MATERIAL_STORE, ev -> new ListLocationsForm(res).show());
+        getToolbar().addMaterialCommandToLeftSideMenu("Reserver", FontImage.MATERIAL_STORE, ev -> new AddReservationForm(res).show());
+        
         Button settingsButton = new Button("Retour");
         settingsButton.setUIID("Title");
         FontImage.setMaterialIcon(settingsButton, FontImage.MATERIAL_ARROW_BACK_IOS);
-        settingsButton.addActionListener(e -> new ListReservationsForm(res).show());
+        settingsButton.addActionListener(e -> new ListLocationsForm(res).show());
 
         Label space = new Label("", "TitlePictureSpace");
         space.setShowEvenIfBlank(true);
@@ -134,9 +150,8 @@ public class AddReservationForm extends SideMenuBaseForm {
             ServiceReservation.getInstance().addReservation(r);
             System.out.println("Reservation ajoutée avec succès");
             Statics.current_choice = 1;
-            ListReservationsForm listReservationsForm = new ListReservationsForm(res);
-            listReservationsForm.show();
-            // }           
+            HomeForm homeForm = new HomeForm(res);
+            homeForm.show();         
 
         });
         //end

@@ -14,7 +14,7 @@ import java.util.Map;
 import com.codename1.l10n.ParseException;
 import com.codename1.ui.events.ActionListener;
 import com.mycompany.myapp.utils.UserSession;
-import com.mycompany.myapp.entities.User;
+import com.mycompany.myapp.entities.fos_user;
 import com.mycompany.myapp.utils.Statics;
 import java.io.IOException;
 import java.util.ArrayList;
@@ -28,7 +28,7 @@ public class UserService {
     public static UserService instance;
     private ConnectionRequest req;
 
-    public ArrayList<User> users;
+    public ArrayList<fos_user> users;
     public boolean resultOK;
 
     public UserService() {
@@ -65,9 +65,9 @@ public class UserService {
         return result;
     }
 
-    public User parseListUserJson(String json) throws ParseException {
+    public fos_user parseListUserJson(String json) throws ParseException {
 
-        User u = new User();
+        fos_user u = new fos_user();
         try {
             JSONParser j = new JSONParser();
 
@@ -76,19 +76,19 @@ public class UserService {
             u.setUsername(obj.get("username").toString());
             u.setEmail(obj.get("email").toString());
             u.setRoles(obj.get("roles").toString());
-            if (obj.get("telephoneNumber") != null) {
-                u.setTelephone(obj.get("telephoneNumber").toString());
-            }
-            if (obj.get("profilePic") != null) {
-                u.setPhoto(obj.get("profilePic").toString());
-            }
-
-            if (obj.get("nom") != null) {
-                u.setNom(obj.get("name").toString());
-            }
-            if (obj.get("prenom") != null) {
-                u.setPrenom(obj.get("firstName").toString());
-            }
+//            if (obj.get("telephoneNumber") != null) {
+//                u.setTelephone(obj.get("telephoneNumber").toString());
+//            }
+//            if (obj.get("profilePic") != null) {
+//                u.setPhoto(obj.get("profilePic").toString());
+//            }
+//
+//            if (obj.get("nom") != null) {
+//                u.setNom(obj.get("name").toString());
+//            }
+//            if (obj.get("prenom") != null) {
+//                u.setPrenom(obj.get("firstName").toString());
+//            }
 
             UserSession z = UserSession.getInstance(u);
             System.out.println(UserSession.instance);
@@ -114,13 +114,13 @@ public class UserService {
                     try {
                         u = j.parseJSON(new CharArrayReader(json.toCharArray()));
 
-                        Statics.current_user = new User((int) Float.parseFloat(u.get("id").toString()));
+                        Statics.current_user = new fos_user((int) Float.parseFloat(u.get("id").toString()));
                         Statics.current_user.setUsername(u.get("username").toString());
                         Statics.current_user.setEmail(u.get("email").toString());
 //                        Statics.current_user.setPhoto(u.get("photo").toString());
-                        Statics.current_user.setNom(u.get("nom").toString());
-                        Statics.current_user.setPrenom(u.get("prenom").toString());
-                        Statics.current_user.setTelephone(u.get("telephone").toString());
+//                        Statics.current_user.setNom(u.get("nom").toString());
+//                        Statics.current_user.setPrenom(u.get("prenom").toString());
+//                        Statics.current_user.setTelephone(u.get("telephone").toString());
                         Statics.current_user.setRoles(u.get("roles").toString());
                         System.out.println("tel : " + u.get("telephone").toString());
                         System.out.println(Statics.current_user);
@@ -133,17 +133,17 @@ public class UserService {
 //        NetworkManager.getInstance().addToQueueAndWait(req);
     }
 
-    public void Register(User u) {
+    public void Register(fos_user u) {
 //        ConnectionRequest con = new ConnectionRequest();
         req.setPost(true);
         req.setUrl(Statics.BASE_URL + "/register");
         req.addArgument("username", u.getUsername());
-        req.addArgument("nom", u.getNom());
-        req.addArgument("prenom", u.getPrenom());
+//        req.addArgument("nom", u.getNom());
+//        req.addArgument("prenom", u.getPrenom());
         req.addArgument("email", u.getEmail());
-        req.addArgument("telephone", u.getTelephone());
+//        req.addArgument("telephone", u.getTelephone());
         req.addArgument("password", u.getPassword());
-        req.addArgument("photo", u.getPhoto());
+//        req.addArgument("photo", u.getPhoto());
         req.addArgument("roles", "ROLE_USER");
         req.addResponseListener(new ActionListener<NetworkEvent>() {
             @Override

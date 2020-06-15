@@ -11,9 +11,9 @@ import java.util.List;
 
 /**
  *
- * @author Hamrouni
+ * @author nahawnd
  */
-public class User implements Serializable {
+public class fos_user implements Serializable {
 
     private static final long serialVersionUID = 1L;
     private Integer id;
@@ -25,35 +25,33 @@ public class User implements Serializable {
     private String salt;
     private String password;
     private Date lastLogin;
-    private String confirmation;
+    private String confirmation_token;
     private Date passwordRequestedAt;
     private String roles;
-    private int score;
-    private int report;
-    private String telephone ;
-    private String photo ;
-    private String nom ;
-    private String prenom ;
+//    private String telephone ;
+//    private String photo ;
+//    private String nom ;
+//    private String prenom ;
 
 
-    public User() {
+    public fos_user() {
     }
 
-    public User(Integer id) {
+    public fos_user(Integer id) {
         this.id = id;
     }
-     public User(Integer id,String username) {
+     public fos_user(Integer id,String username) {
         this.id = id;
         this.username = username;
     }
-    public User (Integer id,String username , String telephone){
-        this.id = id;
-        this.username = username;
-        this.telephone = telephone;
-    
-    }
+//    public fos_user (Integer id,String username , String telephone){
+//        this.id = id;
+//        this.username = username;
+////        this.telephone = telephone;
+//    
+//    }
 
-    public User(Integer id, String username, String usernameCanonical, String email, String emailCanonical, boolean enabled, String salt, String password, Date lastLogin, String confirmation, Date passwordRequestedAt, String roles, int score, int report, String telephone, String photo, String nom, String prenom) {
+    public fos_user(Integer id, String username, String usernameCanonical, String email, String emailCanonical, boolean enabled, String salt, String password, Date lastLogin, String confirmation, Date passwordRequestedAt, String roles) {
         this.id = id;
         this.username = username;
         this.usernameCanonical = usernameCanonical;
@@ -63,15 +61,13 @@ public class User implements Serializable {
         this.salt = salt;
         this.password = password;
         this.lastLogin = lastLogin;
-        this.confirmation = confirmation;
+        this.confirmation_token = confirmation;
         this.passwordRequestedAt = passwordRequestedAt;
         this.roles = roles;
-        this.score = score;
-        this.report = report;
-        this.telephone = telephone;
-        this.photo = photo;
-        this.nom = nom;
-        this.prenom = prenom;
+//        this.telephone = telephone;
+//        this.photo = photo;
+//        this.nom = nom;
+//        this.prenom = prenom;
     }
 
     public Integer getId() {
@@ -146,13 +142,15 @@ public class User implements Serializable {
         this.lastLogin = lastLogin;
     }
 
-    public String getConfirmation() {
-        return confirmation;
+    public String getConfirmation_token() {
+        return confirmation_token;
     }
 
-    public void setConfirmation(String confirmation) {
-        this.confirmation = confirmation;
+    public void setConfirmation_token(String confirmation_token) {
+        this.confirmation_token = confirmation_token;
     }
+
+   
 
     public Date getPasswordRequestedAt() {
         return passwordRequestedAt;
@@ -170,58 +168,40 @@ public class User implements Serializable {
         this.roles = roles;
     }
 
-    public int getScore() {
-        return score;
-    }
+   
 
-    public void setScore(int score) {
-        this.score = score;
-    }
-
-    public int getReport() {
-        return report;
-    }
-
-    public void setReport(int report) {
-        this.report = report;
-    }
-
-    public String getTelephone() {
-        return telephone;
-    }
-
-    public void setTelephone(String telephone) {
-        this.telephone = telephone;
-    }
-
-    public String getPhoto() {
-        return photo;
-    }
-
-    public void setPhoto(String photo) {
-        this.photo = photo;
-    }
-
-    public String getNom() {
-        return nom;
-    }
-
-    public void setNom(String nom) {
-        this.nom = nom;
-    }
-
-    public String getPrenom() {
-        return prenom;
-    }
-
-    public void setPrenom(String prenom) {
-        this.prenom = prenom;
-    }
-
-    @Override
-    public String toString() {
-        return "User{" + "id=" + id + ", username=" + username + ", usernameCanonical=" + usernameCanonical + ", email=" + email + ", emailCanonical=" + emailCanonical + ", enabled=" + enabled + ", salt=" + salt + ", password=" + password + ", lastLogin=" + lastLogin + ", confirmation=" + confirmation + ", passwordRequestedAt=" + passwordRequestedAt + ", roles=" + roles + ", score=" + score + ", report=" + report + ", telephone=" + telephone + ", photo=" + photo + ", nom=" + nom + ", prenom=" + prenom + '}';
-    }
+  
+//    public String getTelephone() {
+//        return telephone;
+//    }
+//
+//    public void setTelephone(String telephone) {
+//        this.telephone = telephone;
+//    }
+//
+//    public String getPhoto() {
+//        return photo;
+//    }
+//
+//    public void setPhoto(String photo) {
+//        this.photo = photo;
+//    }
+//
+//    public String getNom() {
+//        return nom;
+//    }
+//
+//    public void setNom(String nom) {
+//        this.nom = nom;
+//    }
+//
+//    public String getPrenom() {
+//        return prenom;
+//    }
+//
+//    public void setPrenom(String prenom) {
+//        this.prenom = prenom;
+//    }
 
    
     

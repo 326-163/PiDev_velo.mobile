@@ -5,8 +5,8 @@
  */
 package com.mycompany.myapp.utils;
 
-import com.mycompany.myapp.entities.User;
-import com.mycompany.myapp.entities.User;
+import com.mycompany.myapp.entities.fos_user;
+import com.mycompany.myapp.entities.fos_user;
 
 /**
  *
@@ -15,9 +15,9 @@ import com.mycompany.myapp.entities.User;
 public class UserSession {
      public static UserSession instance;
 
-    private User u;
+    private fos_user u;
 
-    public User getU() {
+    public fos_user getU() {
         return u;
     }
 
@@ -30,12 +30,12 @@ public class UserSession {
                 '}';
     }
 
-    public UserSession(User u) {
+    public UserSession(fos_user u) {
         this.u = u;
 
     }
 
-    public static UserSession getInstance(User u) {
+    public static UserSession getInstance(fos_user u) {
         if(instance == null) {
             instance = new UserSession(u);
         }

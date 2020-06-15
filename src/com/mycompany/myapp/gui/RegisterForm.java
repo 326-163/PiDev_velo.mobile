@@ -40,7 +40,7 @@ import com.codename1.ui.events.ActionListener;
 import com.codename1.ui.layouts.BorderLayout;
 import com.mycompany.myapp.services.UserService;
 import com.mycompany.myapp.utils.Statics;
-import com.mycompany.myapp.entities.User;
+import com.mycompany.myapp.entities.fos_user;
 import java.io.IOException;
 //import static org.apache.commons.text.CharacterPredicates.DIGITS;
 //import org.apache.commons.text.RandomStringGenerator;
@@ -52,7 +52,7 @@ import java.io.IOException;
  */
 public class RegisterForm extends Form {
 
-    User u = new User();
+    fos_user u = new fos_user();
     String fileNameInServer = "";
     boolean upim = true;
 
@@ -111,13 +111,13 @@ public class RegisterForm extends Form {
 //            UserService us = new UserService();
             u.setUsername(tLogin.getText());
             u.setUsernameCanonical(tLogin.getText());
-            u.setNom(tNom.getText());
-            u.setPrenom(tPrenom.getText());
+//            u.setUsername(tNom.getText());
+//            u.setPrenom(tPrenom.getText());
             u.setEmail(tEmail.getText());
             u.setEmailCanonical(tEmail.getText());
-            u.setTelephone(tPhone.getText());
+//            u.setTelephone(tPhone.getText());
             u.setPassword(tPassword.getText());
-            u.setPhoto(fileNameInServer);
+//            u.setPhoto(fileNameInServer);
             System.out.println(u.toString());
 
             UserService.getInstance().Register(u);
@@ -159,34 +159,34 @@ public class RegisterForm extends Form {
         } else {
             spaceLabel = new Label(" ");
         }
-        Button upload = new Button("upload photo");
+//        Button upload = new Button("upload photo");
 //        upload.getAllStyles().setTextDecoration(Style.TEXT_DECORATION_UNDERLINE);
 //        upload.setUIID("Title");
 //        FontImage.setMaterialIcon(upload, FontImage.MATERIAL_ADD_A_PHOTO,5);
-        upload.addActionListener(new ActionListener() {
-            @Override
-            public void actionPerformed(ActionEvent evt) {
-                upim = true;
-                try {
-
-                    MultipartRequest cr = new MultipartRequest();
-                    String filepath = Capture.capturePhoto(-1, -1);
-                    //t7ot l url ta3 l fichier php
-                    cr.setUrl("http://localhost/Rent/uploads/user/uploadimage.php");
-                    cr.setPost(true);
-                    String mime = "image/jpeg";
-                    try {
-                        cr.addData("file", filepath, mime);
-                    } catch (java.lang.NullPointerException ex) {
-                        upim = false;
-                        System.out.println("no file selected");
-                    }
-
-                } catch (IOException ex) {
-                    System.out.println(ex.getMessage());
-                }
-            }
-        });
+//        upload.addActionListener(new ActionListener() {
+//            @Override
+//            public void actionPerformed(ActionEvent evt) {
+//                upim = true;
+//                try {
+//
+//                    MultipartRequest cr = new MultipartRequest();
+//                    String filepath = Capture.capturePhoto(-1, -1);
+//                    //t7ot l url ta3 l fichier php
+//                    cr.setUrl("http://localhost/Rent/uploads/user/uploadimage.php");
+//                    cr.setPost(true);
+//                    String mime = "image/jpeg";
+//                    try {
+//                        cr.addData("file", filepath, mime);
+//                    } catch (java.lang.NullPointerException ex) {
+//                        upim = false;
+//                        System.out.println("no file selected");
+//                    }
+//
+//                } catch (IOException ex) {
+//                    System.out.println(ex.getMessage());
+//                }
+//            }
+//        });
 
         Container by = BoxLayout.encloseY(welcome,
                 profilePicLabel,
@@ -203,8 +203,8 @@ public class RegisterForm extends Form {
                         add(BorderLayout.WEST, telephoneIcon),
                 BorderLayout.center(tPassword).
                         add(BorderLayout.WEST, passwordIcon),
-                BorderLayout.center(upload).
-                        add(BorderLayout.WEST, photoIcon),
+//                BorderLayout.center(upload).
+//                        add(BorderLayout.WEST, photoIcon),
                 registerButton,
                 connect
         );
@@ -215,19 +215,19 @@ public class RegisterForm extends Form {
         by.setScrollVisible(false);
     }
 
-    public boolean verifierChamps(User u) {
+    public boolean verifierChamps(fos_user u) {
         if (u.getUsername().equals("")) {
             Dialog.show("Error", "Veuillez remplir le champ par votre Username", "OK", null);
             return false;
         }
-        if (u.getNom().equals("")) {
-            Dialog.show("Error", "Veuillez remplir le champ par votre nom", "OK", null);
-            return false;
-        }
-        if (u.getPrenom().equals("")) {
-            Dialog.show("Error", "Veuillez remplir le champ par votre prénom", "OK", null);
-            return false;
-        }
+//        if (u.getNom().equals("")) {
+//            Dialog.show("Error", "Veuillez remplir le champ par votre nom", "OK", null);
+//            return false;
+//        }
+//        if (u.getPrenom().equals("")) {
+//            Dialog.show("Error", "Veuillez remplir le champ par votre prénom", "OK", null);
+//            return false;
+//        }
         if (u.getEmail().equals("")) {
             Dialog.show("Error", "Veuillez remplir le champ par votre email", "OK", null);
             return false;
@@ -256,16 +256,16 @@ public class RegisterForm extends Form {
             Dialog.show("Error", "E-Mail invalide", "ok", null);
             return false;
         }
-        if (u.getTelephone().length() != 8) {
-            Dialog.show("Error", "Le numéro de téléphone doit avoir 8 chiffres", "OK", null);
-            return false;
-        }
-        try {
-            Integer.parseInt(u.getTelephone());
-        } catch (NumberFormatException ex) {
-            Dialog.show("Error", "Le numéro de téléphone doit contenir que des caractères numériques!", "OK", null);
-            return false;
-        }
+//        if (u.getTelephone().length() != 8) {
+//            Dialog.show("Error", "Le numéro de téléphone doit avoir 8 chiffres", "OK", null);
+//            return false;
+//        }
+//        try {
+//            Integer.parseInt(u.getTelephone());
+//        } catch (NumberFormatException ex) {
+//            Dialog.show("Error", "Le numéro de téléphone doit contenir que des caractères numériques!", "OK", null);
+//            return false;
+//        }
         if (u.getPassword().equals("")) {
             Dialog.show("Error", "Veuillez écrire votre mot de passe", "OK", null);
             return false;

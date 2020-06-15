@@ -8,33 +8,31 @@ package com.mycompany.myapp.gui;
 import com.codename1.components.ImageViewer;
 import com.codename1.ui.Button;
 import com.codename1.ui.ButtonGroup;
-import static com.codename1.ui.Component.CENTER;
 import com.codename1.ui.Container;
 import com.codename1.ui.Display;
 import com.codename1.ui.EncodedImage;
 import com.codename1.ui.Font;
 import com.codename1.ui.Form;
-import com.codename1.ui.Graphics;
 import com.codename1.ui.Image;
 import com.codename1.ui.Label;
-import com.codename1.ui.RadioButton;
 import com.codename1.ui.layouts.BorderLayout;
 import com.codename1.ui.layouts.BoxLayout;
-import com.codename1.ui.layouts.FlowLayout;
-import com.codename1.ui.layouts.LayeredLayout;
 import com.codename1.ui.plaf.Style;
 import com.codename1.ui.util.Resources;
+
 
 /**
  *
  * @author nahawnd
  */
 public class HomeForm extends SideMenuBaseForm {
-
+    Form current;
     Form home;
     private EncodedImage palceHolder;
+         
 
     public HomeForm(Resources theme) {
+           current = this; //Récupération de l'interface(Form) en cours
         home = this;
         setTitle(" Accueil ");
         setLayout(BoxLayout.y());
@@ -107,7 +105,7 @@ public class HomeForm extends SideMenuBaseForm {
 
         btnAddLocation.addActionListener(e -> new AddLocationForm(theme).show());
         btnListLocations.addActionListener(e -> new ListLocationsForm(theme).show());
-//        btnChercherLocation.addActionListener(e-> new RechercheLocationForm(current).show());
+          
 
         btnAddReservation.addActionListener(e -> new AddReservationForm(theme).show());
         btnListReservations.addActionListener(e -> new ListReservationsForm(theme).show());
@@ -118,7 +116,7 @@ public class HomeForm extends SideMenuBaseForm {
 
         Container radioContainer = new Container();
 
-        Button skip = new Button("Suivant");
+        Button skip = new Button("Profil");
         skip.setUIID("SkipButton");
         skip.addActionListener(e -> new ProfileForm(theme).show());
 
@@ -130,15 +128,6 @@ public class HomeForm extends SideMenuBaseForm {
                 southLayout
         ));
 
-//        F1.getToolbar().
-//        addCommandToLeftSideMenu("Profil",null, ev->{F2.show();});
-//        
-//        F1.getToolbar().
-//        addCommandToLeftSideMenu("Deconnexion",null, ev->{F4.show();});
-//        
-//        F1.getToolbar().addCommandToOverflowMenu("Exit",null, ev->{
-//        Display.getInstance().exitApplication();
-//        });
     }
 
     @Override

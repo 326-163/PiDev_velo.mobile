@@ -8,7 +8,6 @@ package com.mycompany.myapp.gui;
 
 import com.codename1.capture.Capture;
 import com.codename1.charts.util.ColorUtil;
-import com.codename1.components.OnOffSwitch;
 import com.codename1.io.MultipartRequest;
 import com.codename1.l10n.ParseException;
 import com.codename1.l10n.SimpleDateFormat;
@@ -32,7 +31,6 @@ import com.mycompany.myapp.entities.Location;
 import com.mycompany.myapp.services.ServiceLocation;
 import com.mycompany.myapp.utils.Statics;
 import java.io.IOException;
-import com.mycompany.myapp.gui.SideMenuBaseForm;
 import java.util.Date;
 
 /**
@@ -58,8 +56,21 @@ public class AddLocationForm extends SideMenuBaseForm {
 //        tb.getUnselectedStyle().setBgImage(tintedImage);
         Button menuButton = new Button("");
         menuButton.setUIID("Title");
-        FontImage.setMaterialIcon(menuButton, FontImage.MATERIAL_MENU);
-        menuButton.addActionListener(e -> getToolbar().openSideMenu());
+//        FontImage.setMaterialIcon(menuButton, FontImage.MATERIAL_MENU);
+//        menuButton.addActionListener(e -> getToolbar().openSideMenu());
+
+        getToolbar().addMaterialCommandToLeftSideMenu("menuButton", FontImage.MATERIAL_MENU, new ActionListener() {
+
+            @Override
+            public void actionPerformed(ActionEvent evt) {
+
+            }
+        });
+
+        getToolbar().addMaterialCommandToLeftSideMenu("Profile", FontImage.MATERIAL_SHOPPING_CART, ev -> new ProfileForm(res).show());
+        getToolbar().addMaterialCommandToLeftSideMenu("Louer", FontImage.MATERIAL_ADD_CIRCLE, ev -> new AddLocationForm(res).show());
+        getToolbar().addMaterialCommandToLeftSideMenu("Locations", FontImage.MATERIAL_STORE, ev -> new ListLocationsForm(res).show());
+        getToolbar().addMaterialCommandToLeftSideMenu("Reserver", FontImage.MATERIAL_STORE, ev -> new AddReservationForm(res).show());
 
         Button settingsButton = new Button("Retour");
         settingsButton.setUIID("Title");
@@ -143,14 +154,17 @@ public class AddLocationForm extends SideMenuBaseForm {
         System.out.println("date md formated : " + datesmd);
         PickerComponent tdateCreation = PickerComponent.createDate(datemd).label("Date creation");
 
-        Label lActive = new Label("Active");
-        OnOffSwitch tActive = new OnOffSwitch();
+        Label lusername = new Label("Username");
+        lusername.getAllStyles().setFont(Font.createSystemFont(Font.FACE_SYSTEM, Font.STYLE_BOLD, Font.SIZE_SMALL));
+        TextField tusername = new TextField("", "Username");
+        tusername.getAllStyles().setFgColor(ColorUtil.BLACK);
+        tusername.getAllStyles().setFont(Font.createSystemFont(Font.FACE_SYSTEM, Font.STYLE_PLAIN, Font.SIZE_MEDIUM));
 
         Button Valider = new Button("Publier location");
         FontImage.setMaterialIcon(Valider, FontImage.MATERIAL_ADD, 5);
         Container cont = new Container(BoxLayout.y());
 
-        cont.addAll(lTitre, tTitre, lPrix, tPrix, lLieu, tLieu, ldateCreation, tdateCreation, lPhoto, upload, lActive, tActive, Valider);
+        cont.addAll(lTitre, tTitre, lPrix, tPrix, lLieu, tLieu, ldateCreation, tdateCreation, lPhoto, upload, lusername, tusername, Valider);
         add(BorderLayout.CENTER, cont);
         Valider.addActionListener(e1 -> {
 
@@ -163,6 +177,7 @@ public class AddLocationForm extends SideMenuBaseForm {
             l.setTitre(tTitre.getText());
             l.setLieu(tLieu.getPicker().getSelectedString());
             l.setDateCreation(date5);
+            l.setUsername(tusername.getText());
 
 //            l.setId(Statics.current_user.getId());
 //            if (tActive.isValue()) {
@@ -170,7 +185,6 @@ public class AddLocationForm extends SideMenuBaseForm {
 //            } else {
 //                l.setActive(false);
 //            }
-
             System.out.println(l);
             if (verifierChamps(l, tPrix.getText())) {
                 l.setPrix((int) Integer.parseInt(tPrix.getText()));
@@ -223,7 +237,6 @@ public class AddLocationForm extends SideMenuBaseForm {
 //            Dialog.show("Error", "Veuillez choisir une photo", "OK", null);
 //            return false;
 //        }
-
         return true;
     }
 
