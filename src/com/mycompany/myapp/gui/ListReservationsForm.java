@@ -61,9 +61,10 @@ public class ListReservationsForm extends SideMenuBaseForm {
 
         getToolbar().addMaterialCommandToLeftSideMenu("Profile", FontImage.MATERIAL_SHOPPING_CART, ev -> new ProfileForm(res).show());
         getToolbar().addMaterialCommandToLeftSideMenu("Louer", FontImage.MATERIAL_ADD_CIRCLE, ev -> new AddLocationForm(res).show());
-        getToolbar().addMaterialCommandToLeftSideMenu("Locations", FontImage.MATERIAL_STORE, ev -> new ListLocationsForm(res).show());
-        getToolbar().addMaterialCommandToLeftSideMenu("Reserver", FontImage.MATERIAL_STORE, ev -> new AddReservationForm(res).show());
-
+        getToolbar().addMaterialCommandToLeftSideMenu("Liste Locations", FontImage.MATERIAL_STORE, ev -> new localNotificationReceived(res).show());
+        getToolbar().addMaterialCommandToLeftSideMenu("Accepter", FontImage.MATERIAL_STORE, ev -> new HomeForm(res).show());
+        getToolbar().addMaterialCommandToLeftSideMenu("Refuser", FontImage.MATERIAL_STORE, ev -> new HomeForm(res).show());
+     
         Button settingsButton = new Button("");
         settingsButton.setUIID("Title");
         FontImage.setMaterialIcon(settingsButton, FontImage.MATERIAL_SETTINGS);

@@ -50,8 +50,8 @@ public class WalkthruForm extends Form {
 
         Container tab1 = BorderLayout.centerAbsolute(BoxLayout.encloseY(
                 notesPlaceholder,
-                new Label("Bienvenue à notre application", "WalkthruWhite"),
-                new SpanLabel("Pour les cyclistes; Par les cylistes ", "WalkthruBody"),
+                new Label("Bienvenue à notre application Velo.TN", "WalkthruWhite"),
+                new SpanLabel("Pour les cyclistes, Par les cylistes ", "WalkthruBody"),
                 bottomSpace
         ));
         tab1.setUIID("WalkthruTab1");
@@ -61,7 +61,7 @@ public class WalkthruForm extends Form {
         Label bottomSpaceTab2 = new Label();
 
         Container tab2 = BorderLayout.centerAbsolute(BoxLayout.encloseY(
-                new Label(duke, "ProfilePic"),
+//                new Label(duke, "ProfilePic"),
                 new Label("Velo", "WalkthruWhite"),
                 new SpanLabel("Amusez vous en parcourons les fonctionnalités de notre application!", "WalkthruBody"),
                 bottomSpaceTab2

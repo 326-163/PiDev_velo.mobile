@@ -15,6 +15,7 @@ import com.codename1.l10n.SimpleDateFormat;
 import com.codename1.ui.Button;
 import com.codename1.ui.Container;
 import com.codename1.ui.Dialog;
+import com.codename1.ui.EncodedImage;
 import com.codename1.ui.Font;
 import com.codename1.ui.FontImage;
 import com.codename1.ui.Graphics;
@@ -40,19 +41,21 @@ import java.util.Date;
  * @author nahawnd
  */
 public class UpdateLocationForm extends SideMenuBaseForm {
-
-    public UpdateLocationForm(Resources res, Location l) {
+    Location l = new Location();
+  private EncodedImage palceHolder;
+    
+    public UpdateLocationForm(Resources res,Location l) {
         super(new BorderLayout());
         Toolbar tb = getToolbar();
         tb.setTitleCentered(false);
-        Image profilePic = res.getImage("updatee.jpg");
+        Image profilePic = res.getImage("updatee.jpg");        
         Image tintedImage = Image.createImage(profilePic.getWidth(), profilePic.getHeight());
         Graphics g = tintedImage.getGraphics();
         g.drawImage(profilePic, 0, 0);
         g.drawImage(res.getImage("gradient-overlay.png"), 0, 0, profilePic.getWidth(), profilePic.getHeight());
-
+        
         tb.getUnselectedStyle().setBgImage(tintedImage);
-
+        
         Button menuButton = new Button("");
         menuButton.setUIID("Title");
 //        FontImage.setMaterialIcon(menuButton, FontImage.MATERIAL_MENU);
@@ -70,30 +73,32 @@ getToolbar().addMaterialCommandToLeftSideMenu("menuButton", FontImage.MATERIAL_M
         getToolbar().addMaterialCommandToLeftSideMenu("Louer", FontImage.MATERIAL_ADD_CIRCLE, ev -> new AddLocationForm(res).show());
         getToolbar().addMaterialCommandToLeftSideMenu("Locations", FontImage.MATERIAL_STORE, ev -> new ListLocationsForm(res).show());
         getToolbar().addMaterialCommandToLeftSideMenu("Reserver", FontImage.MATERIAL_STORE, ev -> new AddReservationForm(res).show());
-
+        
+        
         Button settingsButton = new Button("Retour");
         settingsButton.setUIID("Title");
         FontImage.setMaterialIcon(settingsButton, FontImage.MATERIAL_ARROW_BACK_IOS);
-        settingsButton.addActionListener(e -> new AfficherLocation(res, l).show());
-
+        settingsButton.addActionListener(e -> new AfficherLocation(res,l).show());
+        
         Label space = new Label("", "TitlePictureSpace");
         space.setShowEvenIfBlank(true);
-        Container titleComponent
-                = BorderLayout.north(
-                        BorderLayout.west(menuButton).add(BorderLayout.EAST, settingsButton)
+        Container titleComponent = 
+                BorderLayout.north(
+                    BorderLayout.west(menuButton).add(BorderLayout.EAST, settingsButton)
                 ).
-                        add(BorderLayout.CENTER, space).
-                        add(BorderLayout.SOUTH,
-                                FlowLayout.encloseIn(
-                                        new Label("  Modifier ", "WelcomeBlue"),
-                                        new Label("Location", "WelcomeWhite")
-                                ));
+                add(BorderLayout.CENTER, space).
+                add(BorderLayout.SOUTH, 
+                        FlowLayout.encloseIn(
+                                new Label("  Modifier ", "WelcomeBlue"),
+                                new Label("Location", "WelcomeWhite")
+                        ));
         titleComponent.setUIID("BottomPaddingContainer");
         tb.setTitleComponent(titleComponent);
-
+        
         Label separator = new Label("", "BlueSeparatorLine");
         separator.setShowEvenIfBlank(true);
         add(BorderLayout.NORTH, separator);
+        
 
         //#####begin
         Label lTitre = new Label("Titre");
@@ -193,6 +198,12 @@ getToolbar().addMaterialCommandToLeftSideMenu("menuButton", FontImage.MATERIAL_M
         setupSideMenu(res);
 
     }
+
+    UpdateLocationForm(Resources res, ServiceLocation l) {
+  
+    }
+
+   
 
     public boolean verifierChamps(Location l, String prix) {
         int p;

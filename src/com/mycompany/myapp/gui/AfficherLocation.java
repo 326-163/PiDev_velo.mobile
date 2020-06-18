@@ -125,7 +125,7 @@ getToolbar().addMaterialCommandToLeftSideMenu("menuButton", FontImage.MATERIAL_M
             cb.setVisible(true);
         }
         bModif.addActionListener(e -> {
-            UpdateLocationForm updateLocationForm = new UpdateLocationForm(res, l);
+            UpdateLocationForm updateLocationForm = new UpdateLocationForm(res,l);
 
             updateLocationForm.show();
 

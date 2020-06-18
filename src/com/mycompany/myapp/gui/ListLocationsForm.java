@@ -6,9 +6,7 @@
 package com.mycompany.myapp.gui;
 
 import com.codename1.charts.util.ColorUtil;
-import com.codename1.components.ImageViewer;
 import com.codename1.components.InteractionDialog;
-import com.codename1.components.SpanLabel;
 
 import com.codename1.ui.Button;
 import com.codename1.ui.Container;
@@ -22,7 +20,6 @@ import com.codename1.ui.Label;
 import com.codename1.ui.PickerComponent;
 import com.codename1.ui.TextField;
 import com.codename1.ui.Toolbar;
-import com.codename1.ui.URLImage;
 import com.codename1.ui.events.ActionEvent;
 import com.codename1.ui.events.ActionListener;
 import com.codename1.ui.geom.Dimension;
@@ -47,7 +44,7 @@ public class ListLocationsForm extends SideMenuBaseForm {
     public static Form details;
 
     ServiceLocation l = new ServiceLocation();
-
+ 
     ArrayList<Location> locations = l.getAllLocations();
 
     private static ListLocationsForm instance;
@@ -86,7 +83,7 @@ public class ListLocationsForm extends SideMenuBaseForm {
 
         getToolbar().addMaterialCommandToLeftSideMenu("Profile", FontImage.MATERIAL_SHOPPING_CART, ev -> new ProfileForm(res).show());
         getToolbar().addMaterialCommandToLeftSideMenu("Louer", FontImage.MATERIAL_ADD_CIRCLE, ev -> new AddLocationForm(res).show());
-        getToolbar().addMaterialCommandToLeftSideMenu("Locations", FontImage.MATERIAL_STORE, ev -> new ListLocationsForm(res).show());
+        getToolbar().addMaterialCommandToLeftSideMenu("Modifier location", FontImage.MATERIAL_STORE, ev -> new UpdateLocationForm(res,l).show());
         getToolbar().addMaterialCommandToLeftSideMenu("Reserver", FontImage.MATERIAL_STORE, ev -> new AddReservationForm(res).show());
 
         Button settingsButton = new Button("");

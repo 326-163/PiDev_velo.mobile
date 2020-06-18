@@ -6,15 +6,21 @@
 package com.mycompany.myapp.gui;
 
 import com.codename1.components.ImageViewer;
+import com.codename1.components.SpanLabel;
 import com.codename1.ui.Button;
 import com.codename1.ui.ButtonGroup;
 import com.codename1.ui.Container;
 import com.codename1.ui.Display;
 import com.codename1.ui.EncodedImage;
 import com.codename1.ui.Font;
+import com.codename1.ui.FontImage;
 import com.codename1.ui.Form;
 import com.codename1.ui.Image;
 import com.codename1.ui.Label;
+import com.codename1.ui.Tabs;
+import com.codename1.ui.Toolbar;
+import com.codename1.ui.events.ActionEvent;
+import com.codename1.ui.events.ActionListener;
 import com.codename1.ui.layouts.BorderLayout;
 import com.codename1.ui.layouts.BoxLayout;
 import com.codename1.ui.plaf.Style;
@@ -30,12 +36,19 @@ public class HomeForm extends SideMenuBaseForm {
     Form home;
     private EncodedImage palceHolder;
          
-
+ 
+        
     public HomeForm(Resources theme) {
+      
+        
            current = this; //Récupération de l'interface(Form) en cours
         home = this;
         setTitle(" Accueil ");
         setLayout(BoxLayout.y());
+        
+//          super(new BorderLayout());
+        Toolbar tb = getToolbar();
+        tb.setTitleCentered(false);
 
         Container ch = new Container(BoxLayout.y());
 
@@ -59,43 +72,35 @@ public class HomeForm extends SideMenuBaseForm {
         styletext.setFgColor(0xE3051A);
         Container centered = BorderLayout.centerAbsolute(texthome);
 
-        /*String s = "Liste Locations";
-        Button Locations = new Button(s.toUpperCase());
-        Locations.setPreferredSize(new Dimension(500, 130));
-        Style pro = Locations.getAllStyles();
+        Button menuButton = new Button("");
+        menuButton.setUIID("Title");
+//        FontImage.setMaterialIcon(menuButton, FontImage.MATERIAL_MENU);
+//        menuButton.addActionListener(e -> getToolbar().openSideMenu());
+//        
+       getToolbar().addMaterialCommandToLeftSideMenu("menuButton", FontImage.MATERIAL_MENU, new ActionListener() {
 
-        Locations.addActionListener(e -> new ListLocationsForm(theme).show());
+            @Override
+            public void actionPerformed(ActionEvent evt) {
 
-        Container containerlocations = BorderLayout.centerAbsolute(Locations);
+            }
+        });
 
-        String s1 = "Louer";
-        Button Louer = new Button(s1.toUpperCase());
-        Louer.setPreferredSize(new Dimension(500, 130));
-        Container contaddpro = BorderLayout.centerAbsolute(Louer);
-        Louer.addActionListener(e -> new AddLocationForm(theme).show());
+        getToolbar().addMaterialCommandToLeftSideMenu("Profile", FontImage.MATERIAL_SHOPPING_CART, ev -> new ProfileForm(theme).show());
+        getToolbar().addMaterialCommandToLeftSideMenu("Deconnexion", FontImage.MATERIAL_ADD_CIRCLE, ev -> new LoginForm(theme).show());
+//        getToolbar().addMaterialCommandToLeftSideMenu("Modifier location", FontImage.MATERIAL_STORE, ev -> new UpdateLocationForm(res,l).show());
+//        getToolbar().addMaterialCommandToLeftSideMenu("Reserver", FontImage.MATERIAL_STORE, ev -> new AddReservationForm(res).show());
 
-        String s2 = "Résérver";
-        Button Résérver = new Button(s2.toUpperCase());
-        Résérver.setPreferredSize(new Dimension(500, 130));
-        Container contpanier = BorderLayout.centerAbsolute(Résérver);
+        Button settingsButton = new Button("");
+        settingsButton.setUIID("Title");
+        FontImage.setMaterialIcon(settingsButton, FontImage.MATERIAL_SETTINGS);
+        //begin
 
-        Résérver.addActionListener(e -> new AddReservationForm(theme).show());
+        
+//         Button settingsButton = new Button("Profile");
+//        settingsButton.setUIID("Title");
+//        FontImage.setMaterialIcon(settingsButton, FontImage.MATERIAL_ARROW_BACK_IOS);
+//        settingsButton.addActionListener(e -> new ProfileForm(theme).show());
 
-        String s3 = "Liste Réservations";
-        Button Réservations = new Button(s3.toUpperCase());
-        Réservations.setPreferredSize(new Dimension(500, 130));
-        Container contorder = BorderLayout.centerAbsolute(Réservations);
-
-        int total = 500;
-        Réservations.addActionListener(e -> new ListReservationsForm(theme).show());
-
-        home.add(ch);
-        home.add(centered);
-        home.add(containerlocations);
-        home.add(contaddpro);
-        home.add(contpanier);
-        home.add(contorder);
-        home.show();*/
         Button btnAddLocation = new Button("Louer");
         Button btnListLocations = new Button("Consulter liste locations");
         Button btnChercherLocation = new Button("Chercher location");
@@ -116,20 +121,20 @@ public class HomeForm extends SideMenuBaseForm {
 
         Container radioContainer = new Container();
 
-        Button skip = new Button("Profil");
-        skip.setUIID("SkipButton");
-        skip.addActionListener(e -> new ProfileForm(theme).show());
-
-        Container southLayout = BoxLayout.encloseY(
-                radioContainer,
-                skip
-        );
-        add(BorderLayout.south(
-                southLayout
-        ));
-
+//        Button skip = new Button("Profil");
+//        skip.setUIID("SkipButton");
+//        skip.addActionListener(e -> new ProfileForm(theme).show());
+//
+//        Container southLayout = BoxLayout.encloseY(
+//                radioContainer,
+//                skip
+//        );
+//        add(BorderLayout.south(
+//                southLayout
+//        ));
+//
     }
-
+ 
     @Override
     protected void showOtherForm(Resources res) {
         new ProfileForm(res).show();

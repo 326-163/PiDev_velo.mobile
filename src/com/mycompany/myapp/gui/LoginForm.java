@@ -1,4 +1,4 @@
-/*
+/*old
  * Copyright (c) 2016, Codename One
  *
  * Permission is hereby granted, free of charge, to any person obtaining a copy of this software and associated 
@@ -56,9 +56,9 @@ public class LoginForm extends Form {
 
         Image profilePic = theme.getImage("user-picture.jpg");
         Image mask = theme.getImage("round-mask.png");
-//        profilePic = profilePic.fill(mask.getWidth(), mask.getHeight());
-//        Label profilePicLabel = new Label(profilePic, "ProfilePic");
-//        profilePicLabel.setMask(mask.createMask());
+        profilePic = profilePic.fill(mask.getWidth(), mask.getHeight());
+        Label profilePicLabel = new Label(profilePic, "ProfilePic");
+        profilePicLabel.setMask(mask.createMask());
 
         TextField login = new TextField("Admin", "Login", 20, TextField.EMAILADDR);
         TextField password = new TextField("1234", "Mot de passe", 20, TextField.PASSWORD);
